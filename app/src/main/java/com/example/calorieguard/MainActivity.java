@@ -211,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
             mDatabase = FirebaseDatabase.getInstance("https://calorie-guard-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users");
 
             if (email.equals("Anonymous")) {
+                progressBar.setVisibility(View.GONE);
                 buttonsignout.setVisibility(View.GONE);
                 additem.setVisibility(View.GONE);
                 User.setText(email);
@@ -219,6 +220,12 @@ public class MainActivity extends AppCompatActivity {
                 Gweight.setText("0");
                 HW.setTextColor(Color.BLUE);
                 HW.setText("   Have account?\n   Log In");
+                imageView2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(MainActivity.this, "Sign In to access BucketList", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 HW.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
