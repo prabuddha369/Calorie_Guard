@@ -118,6 +118,14 @@ public class Signup extends AppCompatActivity {
         hashMap.put("height",Height);
         hashMap.put("weight",Weight);
         hashMap.put("sex",Sex);
+        hashMap.put("Plan","maintainweight");
+        if (Sex.equals("Male")) {
+            int curr_cal_men = (int) Math.round(66.47 + (10 * Float.parseFloat(Weight)) + (5.003 * Float.parseFloat(Height)) - (6.755 * Float.parseFloat(Age)));
+            hashMap.put("curcal",Integer.toString(curr_cal_men));
+        } else if (Sex.equals("Female")) {
+            int curr_cal_women = (int) Math.round(655.1 + (9.563 * Float.parseFloat(Weight)) + (1.850 * Float.parseFloat(Height)) - (4.676 * Float.parseFloat(Age)));
+            hashMap.put("curcal",Integer.toString(curr_cal_women));
+        }
 
         String mod_email=Email_modify(Email);
 

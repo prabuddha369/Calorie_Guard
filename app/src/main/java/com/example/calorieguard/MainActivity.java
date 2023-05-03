@@ -29,11 +29,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import android.widget.Filterable;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -43,11 +46,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.sql.Struct;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     public TextView Lweight, Gweight, CurrCal, User, result, HW,buttonsignout;
+    public Button additem;
+    public ImageView imageView2;
     public AutoCompleteTextView searchView;
+    private ProgressBar progressBar;
     private DatabaseReference mDatabase;
     private static final String[] fooditems = new String[]{
             "Aloo Poshto",
@@ -109,8 +116,62 @@ public class MainActivity extends AppCompatActivity {
         User = (TextView) findViewById(R.id.username);
         buttonsignout=(TextView)findViewById(R.id.buttonsignout);
         HW = (TextView) findViewById(R.id.HW);
+        additem=(Button)findViewById(R.id.additem);
         result = (TextView) findViewById(R.id.result);
+        imageView2=(ImageView)findViewById(R.id.imageView2);
+        progressBar=(ProgressBar)findViewById(R.id.progressBar3);
+        progressBar.setVisibility(View.VISIBLE);
         searchView = (AutoCompleteTextView)findViewById(R.id.searchView);
+
+        HashMap<String, String> foodCalories = new HashMap<String, String>();
+        foodCalories.put("Aloo Poshto", "257 cals");
+        foodCalories.put("Beguni", "250 cals");
+        foodCalories.put("Bhaja Muger Dal", "130 cals");
+        foodCalories.put("Bhapa Chingri", "200 cals");
+        foodCalories.put("Bholar Dal", "130 cals");
+        foodCalories.put("Bholar Kofta", "190 cals");
+        foodCalories.put("Bhetki Fish (1 piece)", "108 cals");
+        foodCalories.put("Brown Rice 100gm", "116 cals");
+        foodCalories.put("Chicken Soup 100gm", "63 cals");
+        foodCalories.put("Chingri Malai Curry", "301 cals");
+        foodCalories.put("Chitol Macher Muithya", "137 cals");
+        foodCalories.put("Cholar Kofta", "178 cals");
+        foodCalories.put("Cholar Dal", "174 cals");
+        foodCalories.put("Dhokar Dalna", "260 cals");
+        foodCalories.put("Doi Fuchka", "205 cals");
+        foodCalories.put("Fish Cutlet", "187 cals");
+        foodCalories.put("Ghugni", "231 cals");
+        foodCalories.put("Ilish Bhapa", "264 cals");
+        foodCalories.put("Jhal Muri", "508 cals");
+        foodCalories.put("Kachuri", "207 cals");
+        foodCalories.put("Kalojam", "220 cals");
+        foodCalories.put("Katla Fish (1 piece)", "144 cals");
+        foodCalories.put("Khoi er Shingara", "115 cals");
+        foodCalories.put("Kochuri Torkari", "250 cals");
+        foodCalories.put("Kolar Bora", "180 cals");
+        foodCalories.put("Lau Ghonto", "166 cals");
+        foodCalories.put("Luchi Aloo Dom", "500 cals");
+        foodCalories.put("Maasur Dal 100gm", "120 cals");
+        foodCalories.put("Mishti Doi", "150 cals");
+        foodCalories.put("Murgir Jhol", "275 cals");
+        foodCalories.put("Narkel Chingri", "290 cals");
+        foodCalories.put("One Luchi", "125 cals");
+        foodCalories.put("Paneer 100gm", "265 cals");
+        foodCalories.put("Panta Bhaat", "103 cals");
+        foodCalories.put("Pati Shapta", "170 cals");
+        foodCalories.put("Payesh", "200 cals");
+        foodCalories.put("Phulkopir Dalna", "227 cals");
+        foodCalories.put("Roasted Chicken", "295 cals");
+        foodCalories.put("Roti 47gm", "116 cals");
+        foodCalories.put("Hajmola 3 tablets", "10 cals");
+        foodCalories.put("Halwa", "387 cals");
+        foodCalories.put("Hung Curd", "98 cals");
+        foodCalories.put("Vaja alu", "300 cals");
+        foodCalories.put("Wada", "100 cals");
+        foodCalories.put("Xacuti", "321 cals");
+        foodCalories.put("Yellow Dal", "106 cals");
+        foodCalories.put("Zafrani Pulao", "207 cals");
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, fooditems);
         searchView.setAdapter(adapter);
 
@@ -136,150 +197,7 @@ public class MainActivity extends AppCompatActivity {
                             searchView.clearFocus();
                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
-                            switch (str) {
-                                case "Aloo Poshto":
-                                    result.setText("257 cals");
-                                    break;
-                                case "Beguni":
-                                    result.setText("250 cals");
-                                    break;
-                                case "Bhaja Muger Dal":
-                                    result.setText("130 cals");
-                                    break;
-                                case "Bhapa Chingri":
-                                    result.setText("200 cals");
-                                    break;
-                                case "Bholar Dal":
-                                    result.setText("130 cals");
-                                    break;
-                                case "Bholar Kofta":
-                                    result.setText("190 cals");
-                                    break;
-                                case "Bhetki Fish (1 piece)":
-                                    result.setText("108 cals");
-                                    break;
-                                case "Brown Rice 100gm":
-                                    result.setText("116 cals");
-                                    break;
-                                case "Chicken Soup 100gm":
-                                    result.setText("63 cals");
-                                    break;
-                                case "Chingri Malai Curry":
-                                    result.setText("301 cals");
-                                    break;
-                                case "Chitol Macher Muithya":
-                                    result.setText("137 cals");
-                                    break;
-                                case "Cholar Kofta":
-                                    result.setText("178 cals");
-                                    break;
-                                case "Cholar Dal":
-                                    result.setText("174 cals");
-                                    break;
-                                case "Dhokar Dalna":
-                                    result.setText("260 cals");
-                                    break;
-                                case "Doi Fuchka":
-                                    result.setText("205 cals");
-                                    break;
-                                case "Fish Cutlet":
-                                    result.setText("187 cals");
-                                    break;
-                                case "Ghugni":
-                                    result.setText("231 cals");
-                                    break;
-                                case "Ilish Bhapa":
-                                    result.setText("264 cals");
-                                    break;
-                                case "Jhal Muri":
-                                    result.setText("508 cals");
-                                    break;
-                                case "Kachuri":
-                                    result.setText("207 cals");
-                                    break;
-                                case "Kalojam":
-                                    result.setText("220 cals");
-                                    break;
-                                case "Katla Fish (1 piece)":
-                                    result.setText("144 cals");
-                                    break;
-                                case "Khoi er Shingara":
-                                    result.setText("115 cals");
-                                    break;
-                                case "Kochuri Torkari":
-                                    result.setText("250 cals");
-                                    break;
-                                case "Kolar Bora":
-                                    result.setText("180 cals");
-                                    break;
-                                case "Lau Ghonto":
-                                    result.setText("166 cals");
-                                    break;
-                                case "Luchi Aloo Dom":
-                                    result.setText("500 cals");
-                                    break;
-                                case "Maasur Dal 100gm":
-                                    result.setText("120 cals");
-                                    break;
-                                case "Mishti Doi":
-                                    result.setText("150 cals");
-                                    break;
-                                case "Murgir Jhol":
-                                    result.setText("275 cals");
-                                    break;
-                                case "Narkel Chingri":
-                                    result.setText("290 cals");
-                                    break;
-                                case "One Luchi":
-                                    result.setText("125 cals");
-                                    break;
-                                case "Paneer 100gm":
-                                    result.setText("265 cals");
-                                    break;
-                                case "Panta Bhaat":
-                                    result.setText("103 cals");
-                                    break;
-                                case "Pati Shapta":
-                                    result.setText("170 cals");
-                                    break;
-                                case "Payesh":
-                                    result.setText("200 cals");
-                                    break;
-                                case "Phulkopir Dalna":
-                                    result.setText("227 cals");
-                                    break;
-                                case "Roasted Chicken":
-                                    result.setText("295 cals");
-                                    break;
-                                case "Roti 47gm":
-                                    result.setText("116 cals");
-                                case "Hajmola 3 tablets":
-                                    result.setText("10 cals");
-                                    break;
-                                case "Halwa":
-                                    result.setText("387 cals");
-                                    break;
-                                case "Hung Curd":
-                                    result.setText("98 cals");
-                                    break;
-                                case "Vaja alu":
-                                    result.setText("300 cals");
-                                    break;
-                                case "Wada":
-                                    result.setText("100 cals");
-                                    break;
-                                case "Xacuti":
-                                    result.setText("321 cals");
-                                    break;
-                                case "Yellow Dal":
-                                    result.setText("106 cals");
-                                    break;
-                                case "Zafrani Pulao":
-                                    result.setText("207 cals");
-                                    break;
-                                default:
-                                    result.setText("");
-                            }
+                            result.setText(foodCalories.get(str));
                             return true;
                         }
                         return false;
@@ -287,12 +205,14 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
-            String email = getIntent().getExtras().getString("Email");
+
+        String email = getIntent().getExtras().getString("Email");
 
             mDatabase = FirebaseDatabase.getInstance("https://calorie-guard-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users");
 
             if (email.equals("Anonymous")) {
                 buttonsignout.setVisibility(View.GONE);
+                additem.setVisibility(View.GONE);
                 User.setText(email);
                 CurrCal.setText("0");
                 Lweight.setText("0");
@@ -306,7 +226,16 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
-            } else {
+            }
+            else {
+                imageView2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent= new Intent(getApplicationContext(),BucketList.class);
+                        intent.putExtra("Email",email);
+                        startActivity(intent);
+                    }
+                });
                 buttonsignout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -326,6 +255,30 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+            additem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    str= searchView.getText().toString();
+                    Intent intent=new Intent(getApplicationContext(),BucketList.class);
+                    if(!str.isEmpty() && foodCalories.get(str)!=null)
+                    {
+                        mDatabase.child(email).child("Items").child(str).setValue(foodCalories.get(str))
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(MainActivity.this, ""+e.toString(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                        intent.putExtra("Email",email);
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        Toast.makeText(MainActivity.this, "Select a valid Item", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
         }
 
         public void Get_User_Data (String email){
@@ -334,6 +287,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     if (task.isSuccessful()) {
+                        progressBar.setVisibility(View.GONE);
                         DataSnapshot dataSnapshot = task.getResult();
                         // Retrieve the email map
                         HashMap<String, String> emailMap = new HashMap<>();
@@ -361,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
                                 Lweight.setText(Integer.toString(curr_cal_women - 500));
                                 Gweight.setText(Integer.toString(curr_cal_women + 500));
                                 User.setText("Miss " + name);
-                                HW.setText("Height: " + height + " Kg\nWeight: " + weight + " cm");
+                                HW.setText("Height: " + height + " cm\nWeight: " + weight + " Kg\nAge: "+age+" yr");
                             }
 
                             Log.d("firebase", "Name: " + name + ", Age: " + age + ", Height: " + height + ", Weight: " + weight);
@@ -376,4 +330,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
+
 }

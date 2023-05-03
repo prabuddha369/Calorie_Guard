@@ -52,6 +52,7 @@ public class Login extends AppCompatActivity {
             Intent intent=new Intent(getApplicationContext(),MainActivity.class);
             intent.putExtra("Email",Memail);
             startActivity(intent);
+            finish();
         } else {
             lg = (Button) findViewById(R.id.buttonlogin);
             sg = (Button) findViewById(R.id.buttonsignup);
@@ -131,6 +132,7 @@ public class Login extends AppCompatActivity {
                             String mod_email=Email_modify(Email);
                             intent.putExtra("Email",mod_email);
                             startActivity(intent);
+                            finish();
                             email.setText("");
                             password.setText("");
                             Toast.makeText(Login.this, "Logged in", Toast.LENGTH_SHORT).show();
