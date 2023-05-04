@@ -90,6 +90,38 @@ public class MainActivity extends AppCompatActivity {
             "Murgir Jhol",
             "Narkel Chingri",
             "One Luchi",
+            "Aloo Gobi",
+            "Baingan Bharta",
+            "Biryani",
+            "Butter Chicken",
+            "Chana Masala",
+            "Chapati",
+            "Chicken Tikka Masala",
+            "Chole Bhature",
+            "Dahi Bhalla",
+            "Dal Makhani",
+            "Dosa",
+            "Gulab Jamun",
+            "Idli",
+            "Jalebi",
+            "Kadai Paneer",
+            "Kheer",
+            "Lassi",
+            "Malai Kofta",
+            "Mango Lassi",
+            "Masala Dosa",
+            "Matar Paneer",
+            "Naan",
+            "Pakora",
+            "Palak Paneer",
+            "Pani Puri",
+            "Paratha",
+            "Raita",
+            "Rajma",
+            "Rashagulla",
+            "Singara",
+            "Tandoori Chicken",
+            "Vada Pav",
             "Paneer 100gm",
             "Panta Bhaat",
             "Pati Shapta",
@@ -97,7 +129,33 @@ public class MainActivity extends AppCompatActivity {
             "Phulkopir Dalna",
             "Roasted Chicken 100gm",
             "Roti 47gm",
-            "Vaja alu","Wada","Xacuti","Yellow Dal","Zafrani Pulao"};
+            "Vaja alu",
+            "Wada",
+            "Xacuti",
+            "Yellow Dal",
+            "Zafrani Pulao",
+            "Aloo Paratha",
+            "Bhindi Masala",
+            "Butter Naan",
+            "Chicken Biryani",
+            "Chilli Chicken",
+            "Dal Fry",
+            "Fish Curry",
+            "Gobi Manchurian",
+            "Keema Naan",
+            "Kulfi",
+            "Mango Pickle",
+            "Murg Malai Tikka",
+            "Paneer Butter Masala",
+            "Pav Bhaji",
+            "Prawn Masala",
+            "Rogan Josh",
+            "Samosa Chaat",
+            "Shahi Paneer",
+            "Soya Chaap Masala",
+            "Tandoori Roti",
+            "Veg Manchurian",
+            "Veg Pulao"};
 
     String str;
 
@@ -109,6 +167,9 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#eb4034")));
+
+       Toast t_buk=Toast.makeText(MainActivity.this, "Sign In to access BucketList", Toast.LENGTH_SHORT);
+       Toast t_valid= Toast.makeText(MainActivity.this, "Select a valid Item", Toast.LENGTH_SHORT);
 
         Lweight = (TextView) findViewById(R.id.Lweight);
         Gweight = (TextView) findViewById(R.id.Gweight);
@@ -139,6 +200,60 @@ public class MainActivity extends AppCompatActivity {
         foodCalories.put("Cholar Dal", "174 cals");
         foodCalories.put("Dhokar Dalna", "260 cals");
         foodCalories.put("Doi Fuchka", "205 cals");
+        foodCalories.put("Aloo Gobi", "120 cals");
+        foodCalories.put("Baingan Bharta", "150 cals");
+        foodCalories.put("Biryani", "400 cals");
+        foodCalories.put("Butter Chicken", "350 cals");
+        foodCalories.put("Chana Masala", "200 cals");
+        foodCalories.put("Chapati", "70 cals");
+        foodCalories.put("Chicken Tikka Masala", "300 cals");
+        foodCalories.put("Chole Bhature", "450 cals");
+        foodCalories.put("Dahi Bhalla", "150 cals");
+        foodCalories.put("Dal Makhani", "250 cals");
+        foodCalories.put("Dosa", "150 cals");
+        foodCalories.put("Gulab Jamun", "150 cals");
+        foodCalories.put("Idli", "40 cals");
+        foodCalories.put("Jalebi", "150 cals");
+        foodCalories.put("Kadai Paneer", "300 cals");
+        foodCalories.put("Kheer", "250 cals");
+        foodCalories.put("Lassi", "100 cals");
+        foodCalories.put("Malai Kofta", "400 cals");
+        foodCalories.put("Mango Lassi", "200 cals");
+        foodCalories.put("Masala Dosa", "300 cals");
+        foodCalories.put("Matar Paneer", "300 cals");
+        foodCalories.put("Naan", "150 cals");
+        foodCalories.put("Pakora", "150 cals");
+        foodCalories.put("Palak Paneer", "250 cals");
+        foodCalories.put("Pani Puri", "100 cals");
+        foodCalories.put("Paratha", "150 cals");
+        foodCalories.put("Aloo Paratha", "300 cals");
+        foodCalories.put("Bhindi Masala", "200 cals");
+        foodCalories.put("Butter Naan", "200 cals");
+        foodCalories.put("Chicken Biryani", "450 cals");
+        foodCalories.put("Chilli Chicken", "350 cals");
+        foodCalories.put("Dal Fry", "200 cals");
+        foodCalories.put("Fish Curry", "300 cals");
+        foodCalories.put("Gobi Manchurian", "250 cals");
+        foodCalories.put("Keema Naan", "350 cals");
+        foodCalories.put("Kulfi", "150 cals");
+        foodCalories.put("Mango Pickle", "50 cals");
+        foodCalories.put("Murg Malai Tikka", "200 cals");
+        foodCalories.put("Paneer Butter Masala", "300 cals");
+        foodCalories.put("Pav Bhaji", "300 cals");
+        foodCalories.put("Prawn Masala", "350 cals");
+        foodCalories.put("Rogan Josh", "350 cals");
+        foodCalories.put("Samosa Chaat", "250 cals");
+        foodCalories.put("Shahi Paneer", "300 cals");
+        foodCalories.put("Soya Chaap Masala", "300 cals");
+        foodCalories.put("Tandoori Roti", "150 cals");
+        foodCalories.put("Veg Manchurian", "200 cals");
+        foodCalories.put("Veg Pulao", "350 cals");
+        foodCalories.put("Raita", "100 cals");
+        foodCalories.put("Rajma", "250 cals");
+        foodCalories.put("Rashagulla", "150 cals");
+        foodCalories.put("Singara", "250 cals");
+        foodCalories.put("Tandoori Chicken", "250 cals");
+        foodCalories.put("Vada Pav", "300 cals");
         foodCalories.put("Fish Cutlet", "187 cals");
         foodCalories.put("Ghugni", "231 cals");
         foodCalories.put("Ilish Bhapa", "264 cals");
@@ -178,25 +293,32 @@ public class MainActivity extends AppCompatActivity {
         searchView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Not used in this implementation
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                // Not used in this implementation
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                // Get the filterable adapter and apply the filter to it
                 Filterable adapter = (Filterable) searchView.getAdapter();
                 adapter.getFilter().filter(s);
+
+                // Set an editor action listener for the search view to handle the "Done" action
                 searchView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
                     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                         if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            // Get the search query and hide the keyboard
                             str= searchView.getText().toString();
                             searchView.clearFocus();
                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+
+                            // Display the result for the selected food item
                             result.setText(foodCalories.get(str));
                             return true;
                         }
@@ -206,57 +328,63 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+// Get the email passed from the previous activity and set up the Firebase database reference
         String email = getIntent().getExtras().getString("Email");
+        mDatabase = FirebaseDatabase.getInstance("https://calorie-guard-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users");
 
-            mDatabase = FirebaseDatabase.getInstance("https://calorie-guard-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users");
+        if (email.equals("Anonymous")) {
+            // If the user is anonymous, hide certain UI elements and show a message to prompt the user to log in or sign up
+            progressBar.setVisibility(View.GONE);
+            buttonsignout.setVisibility(View.GONE);
+            additem.setVisibility(View.GONE);
+            User.setText(email);
+            CurrCal.setText("0");
+            Lweight.setText("0");
+            Gweight.setText("0");
+            HW.setTextColor(Color.BLUE);
+            HW.setText("   Have account?\n   Log In");
 
-            if (email.equals("Anonymous")) {
-                progressBar.setVisibility(View.GONE);
-                buttonsignout.setVisibility(View.GONE);
-                additem.setVisibility(View.GONE);
-                User.setText(email);
-                CurrCal.setText("0");
-                Lweight.setText("0");
-                Gweight.setText("0");
-                HW.setTextColor(Color.BLUE);
-                HW.setText("   Have account?\n   Log In");
-                imageView2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(MainActivity.this, "Sign In to access BucketList", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                HW.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent=new Intent(getApplicationContext(),Login.class);
-                        startActivity(intent);
-                    }
-                });
-            }
-            else {
-                imageView2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent= new Intent(getApplicationContext(),BucketList.class);
-                        intent.putExtra("Email",email);
-                        startActivity(intent);
-                    }
-                });
-                buttonsignout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-                        preferences.edit().clear().apply();
+            // Set a click listener for the info icon to display a tooltip message
+            imageView2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    t_buk.cancel();
+                    t_buk.show();
+                }
+            });
 
-                        // Sign out from Firebase Authentication
-                        FirebaseAuth.getInstance().signOut();
+            // Set a click listener for the "Log In" message to launch the Login activity
+            HW.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(getApplicationContext(),Login.class);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            // If the user is not anonymous, set up the UI elements and retrieve the user's data from Firebase database
+            imageView2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent= new Intent(getApplicationContext(),BucketList.class);
+                    intent.putExtra("Email",email);
+                    startActivity(intent);
+                }
+            });
 
-                        // Redirect to Login Activity
-                        Intent intent = new Intent(getApplicationContext(), Login.class);
-                        startActivity(intent);
-                        finish();
-                    }
+            buttonsignout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Clear the shared preferences and sign out from Firebase Authentication
+                    SharedPreferences preferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+                    preferences.edit().clear().apply();
+                    FirebaseAuth.getInstance().signOut();
+
+                    // Redirect to Login Activity
+                    Intent intent = new Intent(getApplicationContext(), Login.class);
+                    startActivity(intent);
+                    finish();
+                }
                 });
                 Get_User_Data(email);
 
@@ -281,7 +409,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        Toast.makeText(MainActivity.this, "Select a valid Item", Toast.LENGTH_SHORT).show();
+                        t_valid.cancel();
+                       t_valid.show();
                     }
                 }
             });
@@ -337,6 +466,4 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
-
 }

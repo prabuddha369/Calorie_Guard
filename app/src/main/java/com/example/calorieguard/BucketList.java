@@ -35,13 +35,15 @@ import com.google.firebase.database.collection.LLRBNode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class BucketList extends AppCompatActivity {
     private ListView listview;
     private ArrayAdapter adapter;
     private RadioGroup RadioG;
     private RadioButton RBL,RBM,RBG;
-    TextView result,textview3;
+    boolean programmaticCheck = false;
+    TextView result,textview3,back;
     private Button addmore,delall;
     private DatabaseReference mDatabase;
     private ProgressBar progressBar6;
@@ -52,16 +54,17 @@ public class BucketList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bucketlist);
         mDatabase = FirebaseDatabase.getInstance("https://calorie-guard-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users");
-        Toast.makeText(this, "Long press items to delete them", Toast.LENGTH_SHORT).show();
+        Toast t_del= Toast.makeText(this, "Long press items to delete them", Toast.LENGTH_SHORT);
+        t_del.show();
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#eb4034")));
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         listview = (ListView) findViewById(R.id.recyclerview);
         RadioG = (RadioGroup) findViewById(R.id.radioGroup2);
         addmore = (Button) findViewById(R.id.addmore);
         result = (TextView) findViewById(R.id.textView4);
         textview3=(TextView)findViewById(R.id.textView3);
+        back=(TextView)findViewById(R.id.textView7);
         delall=(Button)findViewById(R.id.buttondel);
         RBL=(RadioButton)findViewById(R.id.looseweight);
         RBG=(RadioButton)findViewById(R.id.gainweight);
@@ -71,25 +74,16 @@ public class BucketList extends AppCompatActivity {
         HashMap<String, String> itemMap = new HashMap<String, String>();
 
         String Email = getIntent().getExtras().getString("Email");
-        mDatabase.child(Email).child("Items").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @SuppressLint("SetTextI18n")
+        mDatabase.child(Email).child("Items").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task){
-                if (task.isSuccessful()) {
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
                     progressBar6.setVisibility(View.GONE);
-                    if (task.getResult() == null) {
-                        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                        intent.putExtra("Email",Email);
-                        startActivity(intent);
-                        finish();
-                    }
-                        DataSnapshot dataSnapshot = task.getResult();
                     // Retrieve the item map
                     HashMap<String, String> tempMap = (HashMap<String, String>) dataSnapshot.getValue();
                     for (Map.Entry<String, String> entry : tempMap.entrySet()) {
                         itemMap.put(entry.getKey(), entry.getValue());
                     }
-                    if (tempMap != null) {
                         Log.d("firebase", "Good");
                         String fd, cal;
                         ArrayList<String> arrayList = new ArrayList<String>();
@@ -138,37 +132,57 @@ public class BucketList extends AppCompatActivity {
                                 return true;
                             }
                         });
-                    } else {
-                        Log.e("firebase", "Email map is null");
-                        Toast.makeText(BucketList.this, "Email map is null", Toast.LENGTH_SHORT).show();
                     }
-                }
                 else
                 {
-                    Toast.makeText(BucketList.this, "Error", Toast.LENGTH_SHORT).show();
+                    result.setText("Total food added : 0 cals");
+                    Log.d("Firebase", "DataSnapshot does not exist. Child node does not exist.");
+                    Toast t_empty=Toast.makeText(BucketList.this, "List is Empty", Toast.LENGTH_SHORT);
+                    t_empty.show();
+                    t_del.cancel();
+                    Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                    intent.putExtra("Email",Email);
+                    startActivity(intent);
                 }
             }
-        });
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("Firebase", "Error getting DataSnapshot: " + e.getMessage());
+                        Toast.makeText(BucketList.this, "Error : "+e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         delall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDatabase.child(Email).child("Items").removeValue()
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                new AlertDialog.Builder(BucketList.this)
+                        .setIcon(R.drawable.ic_baseline_delete_forever_24)
+                        .setTitle("Are you sure?")
+                        .setMessage("Do you want to delete all items ?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onSuccess(Void unused) {
-                                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                                intent.putExtra("Email",Email);
-                                startActivity(intent);
-                                finish();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(BucketList.this, "" + e.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                            public void onClick(DialogInterface dialog, int which) {
+                                mDatabase.child(Email).child("Items").removeValue()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                intent.putExtra("Email", Email);
+                                                startActivity(intent);
+                                                finish();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(BucketList.this, "" + e.toString(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }})
+                        .setNegativeButton("No", null)
+                        .show();
             }
         });
 
@@ -190,6 +204,7 @@ public class BucketList extends AppCompatActivity {
                                 String Daily = result.getText().toString();
 
                                 if (Plan.equals("looseweight")) {
+                                    selectRadioButton(RadioG,R.id.looseweight);
                                     RBL.setTextColor(getResources().getColor(R.color.green));
                                     int c=Integer.parseInt(Curcal)-500;
                                     textview3.setText("Your Daily Limit : " + Integer.toString(c));
@@ -203,6 +218,7 @@ public class BucketList extends AppCompatActivity {
                                         result.setTextColor(getResources().getColor(R.color.green));
                                     }
                                 } else if (Plan.equals("maintainweight")) {
+                                    selectRadioButton(RadioG,R.id.maintainweight);
                                     RBM.setTextColor(getResources().getColor(R.color.green));
                                     textview3.setText("Your Daily Limit : " + Curcal);
                                     if (Integer.parseInt(GetDaily(Daily)) >= Integer.parseInt(Curcal)) {
@@ -214,6 +230,7 @@ public class BucketList extends AppCompatActivity {
                                         result.setTextColor(getResources().getColor(R.color.green));
                                     }
                                 } else {
+                                    selectRadioButton(RadioG,R.id.gainweight);
                                     RBG.setTextColor(getResources().getColor(R.color.green));
                                     int c=Integer.parseInt(Curcal)+500;
                                     textview3.setText("Your Daily Limit : " + Integer.toString(c));
@@ -244,6 +261,8 @@ public class BucketList extends AppCompatActivity {
         RadioG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (!programmaticCheck) {
+                t_del.cancel();
                 if (RadioG.getCheckedRadioButtonId() == R.id.looseweight) {
                     mDatabase.child(Email).child("Plan").setValue("looseweight")
                             .addOnFailureListener(new OnFailureListener() {
@@ -285,16 +304,36 @@ public class BucketList extends AppCompatActivity {
 
                 }
             }
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
         });
 
 
         addmore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                i.putExtra("Email", Email);
-                startActivity(i);
-                finish();
+                if (result.getCurrentTextColor() == Color.RED) {
+                    new AlertDialog.Builder(BucketList.this)
+                            .setIcon(R.drawable.ic_baseline_crisis_alert_24)
+                            .setTitle("Daily Limit Crossed!")
+                            .setMessage("Do you want to OVER EAT?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }})
+                            .setNegativeButton("No", null)
+                            .show();
+                }
+                else {
+                    finish();
+                }
             }
         });
 
@@ -343,5 +382,11 @@ public class BucketList extends AppCompatActivity {
             }
         }
         return cal.trim();
+    }
+    private void selectRadioButton(RadioGroup radioGroup, int radioButtonId) {
+        RadioButton selectedRadioButton = findViewById(radioButtonId);
+        programmaticCheck = true;
+        selectedRadioButton.setChecked(true);
+        programmaticCheck = false;
     }
 }

@@ -55,6 +55,8 @@ public class Signup extends AppCompatActivity {
         progressBar2 = findViewById(id.progressBar2);
         progressBar2.setVisibility(View.GONE);
 
+        Toast t_s=Toast.makeText(Signup.this, "Enter all the details", Toast.LENGTH_SHORT);
+
         myAuth=FirebaseAuth.getInstance();
 
         mDatabase = FirebaseDatabase.getInstance("https://calorie-guard-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users");
@@ -70,16 +72,18 @@ public class Signup extends AppCompatActivity {
                 String Name=name.getText().toString();
                 int ID=RG.getCheckedRadioButtonId();
                 if(ID!=-1)
-                {rb=findViewById(ID);
-                    String sex=rb.getText().toString();
+                {
                 if(!Email.isEmpty() && !Pass.isEmpty() && !Height.isEmpty() && !Weight.isEmpty() && !Age.isEmpty() && !Name.isEmpty()){
                     progressBar2.setVisibility(View.VISIBLE);
                 Fun_signup(Email,Pass);
-                SaveData(Name,Age,Height,Weight,Email,sex);}
+               }
                 else {
-                    Toast.makeText(Signup.this, "Enter all the details", Toast.LENGTH_SHORT).show();
+                    t_s.cancel();
+                    t_s.show();
                 }}
-                else {  Toast.makeText(Signup.this, "Enter all the details", Toast.LENGTH_SHORT).show();}
+                else {
+                    t_s.cancel();
+                    t_s.show();}
             }
         });
 
@@ -93,6 +97,15 @@ public class Signup extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar2.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
+                            String Email=email.getText().toString();
+                            String Height=height.getText().toString();
+                            String Weight=weight.getText().toString();
+                            String Age=age.getText().toString();
+                            String Name=name.getText().toString();
+                            int ID=RG.getCheckedRadioButtonId();
+                            rb=findViewById(ID);
+                            String sex=rb.getText().toString();
+                            SaveData(Name,Age,Height,Weight,Email,sex);
                             Toast.makeText(Signup.this, "Successfully Signed Up", Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                             String mod_email=Email_modify(Email);

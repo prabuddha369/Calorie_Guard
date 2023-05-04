@@ -41,6 +41,9 @@ public class Login extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
 
+        Toast t1=Toast.makeText(Login.this, "Enter email and password", Toast.LENGTH_SHORT);
+        Toast t_forgot= Toast.makeText(Login.this, "Enter email and click forgot password", Toast.LENGTH_SHORT);
+
         Objects.requireNonNull(getSupportActionBar()).hide();
 
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
@@ -68,7 +71,8 @@ public class Login extends AppCompatActivity {
                     String Email = email.getText().toString();
                     if(Email.isEmpty())
                     {
-                        Toast.makeText(Login.this, "Enter email and click forgot password", Toast.LENGTH_SHORT).show();
+                        t_forgot.cancel();
+                       t_forgot.show();
                     }
                     else {
                         myAuth.sendPasswordResetEmail(Email)
@@ -113,7 +117,8 @@ public class Login extends AppCompatActivity {
                         progressBar.setVisibility(View.VISIBLE);
                         Fun_login(Email, pass);
                     } else {
-                        Toast.makeText(Login.this, "Enter email and password", Toast.LENGTH_SHORT).show();
+                        t1.cancel();
+                        t1.show();
                     }
                 }
             });
