@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
             "Bholar Dal",
             "Bholar Kofta",
             "Bhetki Fish (1 piece)",
+            "Boiled White Rice 100gm",
             "Brown Rice 100gm",
             "Chicken Soup 100gm",
             "Chingri Malai Curry",
@@ -95,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
             "Biryani",
             "Butter Chicken",
             "Chana Masala",
+            "1 Boiled egg",
             "Chapati",
             "Chicken Tikka Masala",
             "Chole Bhature",
@@ -120,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
             "Rajma",
             "Rashagulla",
             "Singara",
+            "Aloo Fry 100gm",
             "Tandoori Chicken",
             "Vada Pav",
             "Paneer 100gm",
@@ -143,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
             "Fish Curry",
             "Gobi Manchurian",
             "Keema Naan",
+            "Brown Bread 1 slice",
             "Kulfi",
             "Mango Pickle",
             "Murg Malai Tikka",
@@ -154,10 +159,12 @@ public class MainActivity extends AppCompatActivity {
             "Shahi Paneer",
             "Soya Chaap Masala",
             "Tandoori Roti",
+            "Soyabean curry",
             "Veg Manchurian",
             "Veg Pulao"};
 
     String str;
+    int i=2;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -192,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
         foodCalories.put("Bholar Dal", "130 cals");
         foodCalories.put("Bholar Kofta", "190 cals");
         foodCalories.put("Bhetki Fish (1 piece)", "108 cals");
+        foodCalories.put("Aloo fry 100gm", "274 cals");
         foodCalories.put("Brown Rice 100gm", "116 cals");
         foodCalories.put("Chicken Soup 100gm", "63 cals");
         foodCalories.put("Chingri Malai Curry", "301 cals");
@@ -210,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
         foodCalories.put("Chole Bhature", "450 cals");
         foodCalories.put("Dahi Bhalla", "150 cals");
         foodCalories.put("Dal Makhani", "250 cals");
+        foodCalories.put("1 Boiled egg", "155 cals");
         foodCalories.put("Dosa", "150 cals");
         foodCalories.put("Gulab Jamun", "150 cals");
         foodCalories.put("Idli", "40 cals");
@@ -236,6 +245,7 @@ public class MainActivity extends AppCompatActivity {
         foodCalories.put("Gobi Manchurian", "250 cals");
         foodCalories.put("Keema Naan", "350 cals");
         foodCalories.put("Kulfi", "150 cals");
+        foodCalories.put("Soyabean curry", "323 cals");
         foodCalories.put("Mango Pickle", "50 cals");
         foodCalories.put("Murg Malai Tikka", "200 cals");
         foodCalories.put("Paneer Butter Masala", "300 cals");
@@ -261,9 +271,11 @@ public class MainActivity extends AppCompatActivity {
         foodCalories.put("Kachuri", "207 cals");
         foodCalories.put("Kalojam", "220 cals");
         foodCalories.put("Katla Fish (1 piece)", "144 cals");
+        foodCalories.put("Brown Bread 1 slice", "75 cals");
         foodCalories.put("Khoi er Shingara", "115 cals");
         foodCalories.put("Kochuri Torkari", "250 cals");
         foodCalories.put("Kolar Bora", "180 cals");
+        foodCalories.put("Boiled White Rice 100gm", "200 cals");
         foodCalories.put("Lau Ghonto", "166 cals");
         foodCalories.put("Luchi Aloo Dom", "500 cals");
         foodCalories.put("Maasur Dal 100gm", "120 cals");
@@ -286,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
         foodCalories.put("Xacuti", "321 cals");
         foodCalories.put("Yellow Dal", "106 cals");
         foodCalories.put("Zafrani Pulao", "207 cals");
+
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, fooditems);
         searchView.setAdapter(adapter);
@@ -362,7 +375,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } else {
-            // If the user is not anonymous, set up the UI elements and retrieve the user's data from Firebase database
+            // If the user is not anonymous, show the list to the user
             imageView2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -397,15 +410,33 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent=new Intent(getApplicationContext(),BucketList.class);
                     if(!str.isEmpty() && foodCalories.get(str)!=null)
                     {
-                        mDatabase.child(email).child("Items").child(str).setValue(foodCalories.get(str))
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(MainActivity.this, ""+e.toString(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                        intent.putExtra("Email",email);
-                        startActivity(intent);
+                        mDatabase.child(email).child("Items").child(str).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                            @Override
+                            public void onSuccess(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    mDatabase.child(email).child("Items").child(str+"-"+Integer.toString(i++)).setValue(foodCalories.get(str))
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(MainActivity.this, "" + e.toString(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                    intent.putExtra("Email", email);
+                                    startActivity(intent);
+                                }
+                                else
+                                {
+                                    mDatabase.child(email).child("Items").child(str).setValue(foodCalories.get(str))
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(MainActivity.this, "" + e.toString(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                    intent.putExtra("Email", email);
+                                    startActivity(intent);
+                                }
+                            }});
                     }
                     else
                     {
