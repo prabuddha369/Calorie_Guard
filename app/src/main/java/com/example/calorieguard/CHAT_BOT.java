@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -103,7 +104,7 @@ public class CHAT_BOT extends AppCompatActivity {
         RequestBody body=RequestBody.create(jsonBody.toString(),JSON);
         Request request=new Request.Builder()
                 .url("https://api.openai.com/v1/completions")
-                .header("Authorization","Bearer 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")
+                .header("Authorization","Bearer ")
                 .post(body)
                 .build();
 
@@ -111,6 +112,7 @@ public class CHAT_BOT extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 addResponse("Failed to load message due to "+e.getMessage());
+                Log.e("ERROR",""+e.getMessage());
             }
 
             @Override
@@ -132,6 +134,7 @@ public class CHAT_BOT extends AppCompatActivity {
                 else
                 {
                     addResponse("Failed to load message due to "+ Objects.requireNonNull(response.body()).toString());
+                    Log.e("ERROR", ""+Objects.requireNonNull(response.body()).toString());
                 }
             }
         });
