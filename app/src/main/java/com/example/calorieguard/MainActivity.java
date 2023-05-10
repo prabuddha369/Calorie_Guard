@@ -29,6 +29,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     public Button additem;
     public ImageView imageView2;
     public AutoCompleteTextView searchView;
+    public ImageView AIchat;
     private ProgressBar progressBar;
     private DatabaseReference mDatabase;
     private static final String[] fooditems = new String[]{
@@ -166,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
     String str;
     int i=2;
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -188,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
         result = (TextView) findViewById(R.id.result);
         imageView2=(ImageView)findViewById(R.id.imageView2);
         progressBar=(ProgressBar)findViewById(R.id.progressBar3);
+        AIchat=(ImageView)findViewById(R.id.AIchat);
         progressBar.setVisibility(View.VISIBLE);
         searchView = (AutoCompleteTextView)findViewById(R.id.searchView);
 
@@ -403,6 +406,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+            AIchat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intnt=new Intent(getApplicationContext(),CHAT_BOT.class);
+                    startActivity(intnt);
+                }
+            });
+
             additem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -413,30 +424,23 @@ public class MainActivity extends AppCompatActivity {
                         mDatabase.child(email).child("Items").child(str).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                             @Override
                             public void onSuccess(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.exists()) {
-                                    mDatabase.child(email).child("Items").child(str+"-"+Integer.toString(i++)).setValue(foodCalories.get(str))
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(MainActivity.this, "" + e.toString(), Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
+                                if(dataSnapshot.exists()) {
+                                    mDatabase.child(email).child("Items").child(str+"("+Integer.toString(i++)+")").setValue(foodCalories.get(str));
                                     intent.putExtra("Email", email);
                                     startActivity(intent);
                                 }
                                 else
                                 {
-                                    mDatabase.child(email).child("Items").child(str).setValue(foodCalories.get(str))
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(MainActivity.this, "" + e.toString(), Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
+                                    mDatabase.child(email).child("Items").child(str).setValue(foodCalories.get(str));
                                     intent.putExtra("Email", email);
                                     startActivity(intent);
                                 }
-                            }});
+                            }}) .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(MainActivity.this, "" + e.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                     else
                     {
