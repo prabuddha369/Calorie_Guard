@@ -50,13 +50,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     public TextView Lweight, Gweight, CurrCal, User, result, HW,buttonsignout;
-    public Button additem;
-    public ImageView imageView2;
+    public Button additem,imageView2;
     public AutoCompleteTextView searchView;
-    public ImageView AIchat;
+    public ImageView AIchat,imgview4;
     private ProgressBar progressBar;
     private DatabaseReference mDatabase;
     private static final String[] fooditems = new String[]{
@@ -177,8 +177,10 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#eb4034")));
 
-       Toast t_buk=Toast.makeText(MainActivity.this, "Sign In to access BucketList", Toast.LENGTH_SHORT);
+        Objects.requireNonNull(getSupportActionBar()).hide();
+
        Toast t_valid= Toast.makeText(MainActivity.this, "Select a valid Item", Toast.LENGTH_SHORT);
+       Toast tlg=Toast.makeText(MainActivity.this, "Log in to access this feature", Toast.LENGTH_SHORT);
 
         Lweight = (TextView) findViewById(R.id.Lweight);
         Gweight = (TextView) findViewById(R.id.Gweight);
@@ -188,7 +190,8 @@ public class MainActivity extends AppCompatActivity {
         HW = (TextView) findViewById(R.id.HW);
         additem=(Button)findViewById(R.id.additem);
         result = (TextView) findViewById(R.id.result);
-        imageView2=(ImageView)findViewById(R.id.imageView2);
+        imgview4=(ImageView)findViewById(R.id.imageView4);
+        imageView2=(Button) findViewById(R.id.imageView2);
         progressBar=(ProgressBar)findViewById(R.id.progressBar3);
         AIchat=(ImageView)findViewById(R.id.AIchat);
         progressBar.setVisibility(View.VISIBLE);
@@ -353,6 +356,7 @@ public class MainActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
             buttonsignout.setVisibility(View.GONE);
             additem.setVisibility(View.GONE);
+            imageView2.setVisibility(View.GONE);
             User.setText(email);
             CurrCal.setText("0");
             Lweight.setText("0");
@@ -360,21 +364,18 @@ public class MainActivity extends AppCompatActivity {
             HW.setTextColor(Color.BLUE);
             HW.setText("   Have account?\n   Log In");
 
-            // Set a click listener for the info icon to display a tooltip message
-            imageView2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    t_buk.cancel();
-                    t_buk.show();
-                }
-            });
-
             // Set a click listener for the "Log In" message to launch the Login activity
             HW.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(getApplicationContext(),Login.class);
-                    startActivity(intent);
+                    finish();
+                }
+            });
+            imgview4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tlg.cancel();
+                    tlg.show();
                 }
             });
         } else {
@@ -476,16 +477,16 @@ public class MainActivity extends AppCompatActivity {
                             if (sex.equals("Male")) {
                                 int curr_cal_men = (int) Math.round(66.47 + (10 * Float.parseFloat(weight)) + (5.003 * Float.parseFloat(height)) - (6.755 * Float.parseFloat(age)));
                                 CurrCal.setText(Integer.toString(curr_cal_men) + " cals");
-                                Lweight.setText(Integer.toString(curr_cal_men - 500));
-                                Gweight.setText(Integer.toString(curr_cal_men + 500));
-                                User.setText("Mr. " + name);
+                                Lweight.setText(Integer.toString(curr_cal_men - 500)+"\ncal");
+                                Gweight.setText(Integer.toString(curr_cal_men + 500)+"\ncal");
+                                User.setText(firstname(name));
                                 HW.setText("Height: " + height + " cm\nWeight: " + weight + " Kg\nAge: "+age+" yr");
                             } else if (sex.equals("Female")) {
                                 int curr_cal_women = (int) Math.round(655.1 + (9.563 * Float.parseFloat(weight)) + (1.850 * Float.parseFloat(height)) - (4.676 * Float.parseFloat(age)));
                                 CurrCal.setText(Integer.toString(curr_cal_women) + " cals");
-                                Lweight.setText(Integer.toString(curr_cal_women - 500));
-                                Gweight.setText(Integer.toString(curr_cal_women + 500));
-                                User.setText("Miss " + name);
+                                Lweight.setText(Integer.toString(curr_cal_women - 500)+"\ncal");
+                                Gweight.setText(Integer.toString(curr_cal_women + 500)+"\ncal");
+                                User.setText(firstname(name));
                                 HW.setText("Height: " + height + " cm\nWeight: " + weight + " Kg\nAge: "+age+" yr");
                             }
 
@@ -500,5 +501,21 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+        }
+        public String firstname(String s)
+        {
+            String r="";
+            s.trim();
+            for(int i=0;i<s.length();i++)
+            {
+                if(s.charAt(i)==' ')
+                {
+                    break;
+                }
+                else {
+                    r+=s.charAt(i);
+                }
+            }
+            return r;
         }
 }

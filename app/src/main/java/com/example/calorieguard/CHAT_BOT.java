@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +41,8 @@ public class CHAT_BOT extends AppCompatActivity {
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
     EditText message;
-    TextView qus,answer,back;
+    ImageView imageView;
+    TextView qus,answer,back,t1,t2,t3;
     ImageButton send;
 
     @Override
@@ -53,13 +55,49 @@ public class CHAT_BOT extends AppCompatActivity {
         qus=(TextView)findViewById(R.id.question);
         answer=(TextView)findViewById(R.id.answer);
         back=(TextView)findViewById(R.id.backtomain);
-
-        qus.setVisibility(View.GONE);
-        answer.setText("Typing ...");
-        showAfterdelay(getApplicationContext(),1500);
+        imageView=(ImageView)findViewById(R.id.imageView5);
+        t1=(TextView)findViewById(R.id.textView17);
+        t2=(TextView)findViewById(R.id.textView18);
+        t3=(TextView)findViewById(R.id.textView19);
 
         Objects.requireNonNull(getSupportActionBar()).hide();
 
+        qus.setVisibility(View.GONE);
+        imageView.setVisibility(View.GONE);
+        t1.setVisibility(View.GONE);
+        t2.setVisibility(View.GONE);
+        t3.setVisibility(View.GONE);
+        answer.setText("Typing ...");
+        showAfterdelay(getApplicationContext(),500);
+
+
+        t1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                message.setText(t1.getText());
+            }
+        });
+        t2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                message.setText(t2.getText());
+            }
+        });
+        t3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                message.setText(t3.getText());
+            }
+        });
+
+        message.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                t1.setVisibility(View.GONE);
+                t2.setVisibility(View.GONE);
+                t3.setVisibility(View.GONE);
+            }
+        });
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +116,10 @@ public class CHAT_BOT extends AppCompatActivity {
                 qus.setVisibility(View.VISIBLE);
                 qus.setText(question);
                 answer.setVisibility(View.VISIBLE);
+                imageView.setVisibility(View.GONE);
+                t1.setVisibility(View.GONE);
+                t2.setVisibility(View.GONE);
+                t3.setVisibility(View.GONE);
                 answer.setText("Typing ...");
                 message.setText("");
                 CallAPI(question.trim());}
@@ -104,7 +146,7 @@ public class CHAT_BOT extends AppCompatActivity {
         RequestBody body=RequestBody.create(jsonBody.toString(),JSON);
         Request request=new Request.Builder()
                 .url("https://api.openai.com/v1/completions")
-                .header("Authorization","Bearer ")
+                .header("Authorization","Bearer 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")
                 .post(body)
                 .build();
 
@@ -145,6 +187,7 @@ public class CHAT_BOT extends AppCompatActivity {
             @Override
             public void run() {
                 answer.setText(res);
+                imageView.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -153,7 +196,11 @@ public class CHAT_BOT extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                answer.setText("Hi there,\nIt's JIM, your personal AI assistant.\nHow can I help you?");
+                answer.setText("Hi there,\nIt's JIM, your personal AI assistant.\nHow may I help you?\n\nNot sure where to start?\nYou can try:\n\n\n\n\n\n\n");
+                imageView.setVisibility(View.VISIBLE);
+                t1.setVisibility(View.VISIBLE);
+                t2.setVisibility(View.VISIBLE);
+                t3.setVisibility(View.VISIBLE);
             }
         },milliseconds);
     }

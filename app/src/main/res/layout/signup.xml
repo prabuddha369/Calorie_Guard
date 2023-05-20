@@ -3,183 +3,212 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="@+id/edittextage"
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:background="@drawable/backg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1"
-        app:srcCompat="@drawable/icon" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </View>
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300sp"
+        android:background="@drawable/chat"
+        android:backgroundTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </View>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/poppinsextrabold"
+        android:text="Sign Up"
+        android:textColor="@color/red"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.105"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view2"
+        app:layout_constraintVertical_bias="0.0">
+
+    </TextView>
 
     <EditText
         android:id="@+id/editText2email"
-        android:layout_width="300dp"
-        android:layout_height="55dp"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
         android:background="@drawable/edt_bg"
-
-        android:backgroundTint="@color/white"
         android:ems="10"
-        android:hint="email"
+        android:fontFamily="@font/poppinsregular"
+        android:hint="Email"
         android:inputType="textEmailAddress"
         android:paddingStart="15dp"
-        android:textColor="@color/black"
+        android:textColor="@color/semigrey"
         android:textColorHint="@color/grey"
         app:layout_constraintBottom_toTopOf="@+id/editText2password"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.979" />
+        app:layout_constraintTop_toTopOf="@id/view2"
+        app:layout_constraintVertical_bias="0.977" />
 
     <EditText
         android:id="@+id/editTextheight"
-        android:layout_width="300dp"
-        android:layout_height="55dp"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
         android:background="@drawable/edt_bg"
-
-        android:backgroundTint="@color/white"
         android:ems="10"
+        android:fontFamily="@font/poppinsregular"
         android:hint="Height in cm"
         android:inputType="number"
         android:paddingStart="15dp"
-        android:textColor="@color/black"
+        android:textColor="@color/semigrey"
         android:textColorHint="@color/grey"
         app:layout_constraintBottom_toTopOf="@+id/editTextweight"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.957" />
+        app:layout_constraintTop_toTopOf="@id/view2"
+        app:layout_constraintVertical_bias="0.971" />
 
     <EditText
         android:id="@+id/editTextweight"
-        android:layout_width="300dp"
-        android:layout_height="55dp"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
         android:background="@drawable/edt_bg"
-
-        android:backgroundTint="@color/white"
         android:ems="10"
+        android:fontFamily="@font/poppinsregular"
         android:hint="Weight in Kg"
         android:inputType="number"
         android:paddingStart="15dp"
-        android:textColor="@color/black"
+        android:textColor="@color/semigrey"
         android:textColorHint="@color/grey"
         app:layout_constraintBottom_toTopOf="@+id/editText2email"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+        app:layout_constraintTop_toTopOf="@id/view2"
+        app:layout_constraintVertical_bias="0.974" />
 
     <EditText
         android:id="@+id/editTextName"
-        android:layout_width="300dp"
-        android:layout_height="55dp"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
         android:background="@drawable/edt_bg"
-
-        android:backgroundTint="@color/white"
-        android:ems="10"
-        android:hint="Name"
+        android:fontFamily="@font/poppinsregular"
+        android:hint="Fullname"
         android:inputType="textPersonName"
         android:paddingStart="15dp"
-        android:textColor="@color/black"
+        android:textColor="@color/semigrey"
         android:textColorHint="@color/grey"
         app:layout_constraintBottom_toTopOf="@+id/edittextage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.906" />
+        app:layout_constraintTop_toTopOf="@id/view2"
+        app:layout_constraintVertical_bias="0.894" />
 
     <EditText
         android:id="@+id/editText2password"
-        android:layout_width="300dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="464dp"
-
+        android:layout_width="350dp"
+        android:layout_height="45dp"
         android:background="@drawable/edt_bg"
-        android:backgroundTint="@color/white"
         android:ems="10"
-        android:hint="password"
+        android:fontFamily="@font/poppinsregular"
+        android:hint="Password"
         android:inputType="textVisiblePassword"
         android:paddingStart="15dp"
-        android:textColor="@color/black"
+        android:layout_marginTop="550dp"
+        android:textColor="@color/semigrey"
         android:textColorHint="@color/grey"
-        app:layout_constraintBottom_toTopOf="@+id/SignupBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.82" />
+        app:layout_constraintVertical_bias="0.928" />
 
     <EditText
         android:id="@+id/edittextage"
-        android:layout_width="300dp"
-        android:layout_height="55dp"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
         android:background="@drawable/edt_bg"
-        android:backgroundTint="@color/white"
         android:ems="10"
+        android:fontFamily="@font/poppinsregular"
         android:hint="Age"
         android:inputType="number"
         android:paddingStart="15dp"
-        android:textColor="@color/black"
+        android:textColor="@color/semigrey"
         android:textColorHint="@color/grey"
         app:layout_constraintBottom_toTopOf="@+id/radioGroup"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.927" />
+        app:layout_constraintTop_toTopOf="@id/view2"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/SignupBtn"
-        android:layout_width="200dp"
+        android:layout_width="350dp"
         android:layout_height="55dp"
         android:background="@drawable/btn_bg"
-        android:text="Signup"
+        android:fontFamily="@font/poppinsregular"
+        android:text="Sign up"
+        android:textStyle="bold"
         android:textColor="@color/white"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.899" />
+        app:layout_constraintTop_toTopOf="@id/view2"
+        app:layout_constraintVertical_bias="0.915" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:background="@drawable/edt_bg"
-        android:backgroundTint="@color/white"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
         android:layout_marginBottom="12dp"
         android:orientation="horizontal"
+        android:paddingStart="50dp"
         app:layout_constraintBottom_toTopOf="@+id/editTextheight"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        android:paddingStart="50dp">
+        app:layout_constraintTop_toTopOf="@id/view2"
+        app:layout_constraintVertical_bias="1.0">
+
         <RadioButton
             android:id="@+id/radioButtonM"
             android:layout_width="100dp"
-            android:textColor="@color/black"
             android:layout_height="50dp"
-            android:text="Male" />
+            android:layout_marginEnd="40dp"
+            android:fontFamily="@font/poppinsregular"
+            android:text="  Male"
+            android:textColor="@drawable/radiobuttonselector" />
 
         <RadioButton
             android:id="@+id/radioButtonF"
             android:layout_width="100dp"
-            android:textColor="@color/black"
             android:layout_height="50dp"
-            android:text="Female" />
+            android:fontFamily="@font/poppinsregular"
+            android:text="  Female"
+            android:textColor="@drawable/radiobuttonselector" />
     </RadioGroup>
 
     <ProgressBar
@@ -190,6 +219,36 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/view2" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="85dp"
+        android:fontFamily="@font/poppinsregular"
+        android:text="Already have an account?"
+        android:textColor="@color/grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SignupBtn"
+        app:layout_constraintVertical_bias="0.242">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppinsregular"
+        android:text="Log in"
+        android:textColor="@color/red"
+        app:layout_constraintStart_toEndOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/SignupBtn">
+
+    </TextView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

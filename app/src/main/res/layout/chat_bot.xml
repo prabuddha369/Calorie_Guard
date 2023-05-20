@@ -3,62 +3,74 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/bg"
+    android:background="@color/red"
     tools:context=".CHAT_BOT"
     android:layout_height="match_parent">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/mainpg">
+
+    </View>
+
     <TextView
         android:id="@+id/backtomain"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/red"
-        android:text="&lt; BACK"
-        android:textSize="20dp"
+        android:layout_width="45dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/ic_baseline_arrow_back_ios_24"
         android:gravity="center_vertical"
         android:paddingStart="15dp"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="@color/white" />
 
     <TextView
         android:id="@+id/question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="15dp"
-        android:paddingEnd="25dp"
-        android:textSize="25dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
+        android:fontFamily="@font/nunitoregular"
+        android:textSize="20dp"
         android:layout_alignParentRight="true"
         android:gravity="center_vertical"
-        android:layout_below="@id/textchat"
+        android:layout_below="@id/textView14"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="67dp"
+        android:layout_marginTop="90dp"
         android:background="@drawable/chat"
-        android:backgroundTint="@color/white"
-        android:textColor="@color/black" />
+        android:backgroundTint="@color/lightgrey"
+        android:textColor="@color/semigrey" />
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/question"
         android:layout_above="@id/bottom_layout"
-        android:background="@drawable/chat"
-        android:layout_marginEnd="100dp"
-        android:layout_marginTop="50dp">
+        android:background="@drawable/listbox"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="80dp">
 
         <TextView
             android:id="@+id/answer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/question"
-            android:layout_marginBottom="150dp"
+            android:layout_marginBottom="180dp"
             android:background="@drawable/chat"
-            android:backgroundTint="@color/red"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:fontFamily="@font/nunitoregular"
+            android:backgroundTint="@color/chatcolor"
             android:gravity="center_vertical"
-            android:paddingStart="25dp"
-            android:paddingEnd="15dp"
-            android:textColor="@color/white"
-            android:textSize="25dp" />
+            android:layout_marginStart="20dp"
+            android:paddingStart="70dp"
+            android:paddingEnd="25dp"
+            android:textColor="@color/semigrey"
+            android:textSize="20dp" />
     </ScrollView>
 
     <RelativeLayout
@@ -76,30 +88,81 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginStart="10dp"
-            android:layout_toLeftOf="@id/send"
-            android:background="@drawable/searchbox"
-            android:hint="Write here..."
-            android:padding="16dp" />
+            android:background="@drawable/listbox"
+            android:backgroundTint="@color/chatcolor"
+            android:fontFamily="@font/poppinsregular"
+            android:hint="ask here"
+            android:padding="16dp"
+            android:paddingStart="20dp"
+            android:textColorHint="@color/semigrey" />
 
         <ImageButton
             android:id="@+id/send"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-           android:layout_centerInParent="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
             android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/ic_baseline_send_24"
             android:padding="8dp" />
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/textchat"
+        android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/backtomain"
-        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@id/backtomain"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/nunitoregular"
+        android:textStyle="bold"
+        android:text="ChatBot"
+        android:textColor="@color/white"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/question"
+        android:textColor="@color/red"
+        android:fontFamily="@font/nunitoregular"
+        android:textSize="20dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="320dp"
+        android:text="How to burn calories at home"/>
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView17"
+        android:layout_marginStart="80dp"
+        android:textColor="@color/red"
+        android:fontFamily="@font/nunitoregular"
+        android:textSize="20dp"
         android:layout_marginTop="20dp"
-        android:textSize="30dp"
-        android:text="A.I.  ChatBot" />
+        android:text="Ideas for weight loss" />
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView18"
+        android:textColor="@color/red"
+        android:fontFamily="@font/nunitoregular"
+        android:textSize="20dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="20dp"
+        android:text="Recipie for making sandwich" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/question"
+        android:layout_marginTop="90dp"
+        android:layout_marginStart="25dp"
+        app:srcCompat="@drawable/chathead" />
 
 </RelativeLayout>

@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class Login extends AppCompatActivity {
-    public Button lg,sg,skip;
+    public Button lg;
     public EditText email,password;
-    public TextView forgotPass;
+    public TextView forgotPass,sg,skip,CalorieG;
     private ProgressBar progressBar;
     private SharedPreferences sharedPreferences;
     private FirebaseAuth myAuth;
@@ -58,12 +58,17 @@ public class Login extends AppCompatActivity {
             finish();
         } else {
             lg = (Button) findViewById(R.id.buttonlogin);
-            sg = (Button) findViewById(R.id.buttonsignup);
-            skip = (Button) findViewById(R.id.buttonskip);
+            sg = (TextView) findViewById(R.id.buttonsignup);
+            skip = (TextView) findViewById(R.id.buttonskip);
+            CalorieG=(TextView)findViewById(R.id.CalorieG);
             email = (EditText) findViewById(R.id.editTextTextEmailAddress);
             forgotPass=(TextView)findViewById(R.id.forgotPass);
             password = (EditText) findViewById(R.id.editTextTextPassword);
             myAuth = FirebaseAuth.getInstance();
+
+            CalorieG.setAlpha(0.8f);
+            skip.setAlpha(0.8f);
+            CalorieG.setLetterSpacing(0.1f);
 
             forgotPass.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -105,6 +110,7 @@ public class Login extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), Signup.class);
                     startActivity(intent);
+                    //overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
                 }
             });
 

@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.calorieguard.R.id;
@@ -33,6 +34,7 @@ public class Signup extends AppCompatActivity {
     public EditText name,age,height,weight,email,pass;
     public RadioGroup RG;
     public RadioButton rb;
+    public TextView t;
     private ProgressBar progressBar2;
     private FirebaseAuth myAuth;
     private DatabaseReference mDatabase;
@@ -47,6 +49,7 @@ public class Signup extends AppCompatActivity {
         signupbtn=(Button)findViewById(R.id.SignupBtn);
         name=(EditText)findViewById(R.id.editTextName);
         age=(EditText)findViewById(id.edittextage);
+        t=(TextView)findViewById(id.textView9);
         height=(EditText)findViewById(id.editTextheight);
         weight=(EditText)findViewById(id.editTextweight);
         email=(EditText)findViewById(id.editText2email);
@@ -60,6 +63,13 @@ public class Signup extends AppCompatActivity {
         myAuth=FirebaseAuth.getInstance();
 
         mDatabase = FirebaseDatabase.getInstance("https://calorie-guard-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users");
+
+        t.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         signupbtn.setOnClickListener(new View.OnClickListener() {
             @Override
