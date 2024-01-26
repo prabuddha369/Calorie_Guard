@@ -2,21 +2,21 @@
 ![Logo](https://i.ibb.co/BPSC0LG/Calorie-Guard.png)
 # Calorie Guard
 
-Maintenance Calorie and Food Calorie intake Calculator App with Login and Signup feature using Firebase.
+Maintenance Calorie Calculator and Food Calorie intake tracker App with AI Lens and AI FItness Assistant.
 
 ## 🛠 Skills
-Android Studio, Java, Firebase, API implementation, Android Testing, Android Designing ...
+Android Studio, Java, Firebase, API, Android Testing, Android Designing ...
 ## App Screenshots
 
-![App Screenshot](https://i.ibb.co/2kh4FcC/Picsart-23-09-06-11-24-58-098.png)
+![App Screenshot](https://i.ibb.co/0QX4nMs/Picsart-24-01-26-12-08-44-486.jpg)
 
 ## Demo
 
 Calorie Guard.apk
 
-https://www.upload-apk.com/NKvNBJVY8HmbXEg
+link comming soon for playstore...
 
- **Note :** *works best with android 9 above*
+ **Note :** *works best with android 10 above*
 ## Contributing
 
 Contributions are always welcome!
