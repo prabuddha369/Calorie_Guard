@@ -11,6 +11,7 @@
     <dimen name="padding">18dp</dimen>
     <dimen name="footer_height">65dp</dimen>
     <dimen name="caloriemeter_height">90dp</dimen>
-
+    <dimen name="margin_custom_alert">30dp</dimen>
+    <dimen name="textsize_bucketlist">15sp</dimen>
 
 </resources>

@@ -8,8 +8,9 @@
 
     <RadioGroup
         android:id="@+id/radioGroup2"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
         android:layout_marginTop="@dimen/RadioBtn_MarginTop"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -19,7 +20,8 @@
 
         <RadioButton
             android:id="@+id/looseweight"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="50dp"
             android:fontFamily="@font/robotoregular"
             android:paddingStart="10dp"
@@ -27,7 +29,8 @@
 
         <RadioButton
             android:id="@+id/maintainweight"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="50dp"
             android:fontFamily="@font/robotoregular"
             android:paddingStart="10dp"
@@ -35,7 +38,8 @@
 
         <RadioButton
             android:id="@+id/gainweight"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="50dp"
             android:fontFamily="@font/robotoregular"
             android:paddingStart="10dp"
@@ -47,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/YourListHeight"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="@dimen/WhatsYourPlanMarginTop"
         android:background="@drawable/listbox"
         android:elevation="2dp"
         app:layout_constraintBottom_toTopOf="@+id/include"
@@ -72,7 +76,7 @@
         android:layout_marginTop="17dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/deleteallbg"
-        android:elevation="5dp"
+        android:elevation="2dp"
         app:layout_constraintEnd_toStartOf="@+id/addmore"
         app:layout_constraintTop_toTopOf="@+id/view13" />
 
@@ -116,7 +120,7 @@
             android:gravity="center"
             android:text="All"
             android:textColor="@color/black"
-            android:textSize="15dp" />
+            android:textSize="@dimen/textsize_bucketlist" />
 
         <TextView
             android:id="@+id/breakfast_f"
@@ -129,7 +133,7 @@
             android:gravity="center"
             android:text="Breakfast"
             android:textColor="@color/black"
-            android:textSize="15dp" />
+            android:textSize="@dimen/textsize_bucketlist" />
 
         <TextView
             android:id="@+id/lunch_f"
@@ -142,7 +146,7 @@
             android:gravity="center"
             android:text="Lunch"
             android:textColor="@color/black"
-            android:textSize="15dp" />
+            android:textSize="@dimen/textsize_bucketlist" />
 
         <TextView
             android:id="@+id/dinner_f"
@@ -155,7 +159,7 @@
             android:gravity="center"
             android:text="Dinner"
             android:textColor="@color/black"
-            android:textSize="15dp" />
+            android:textSize="@dimen/textsize_bucketlist" />
 
         <TextView
             android:id="@+id/snacks_f"
@@ -168,7 +172,7 @@
             android:gravity="center"
             android:text="Snacks"
             android:textColor="@color/black"
-            android:textSize="15dp" />
+            android:textSize="@dimen/textsize_bucketlist" />
     </LinearLayout>
 
     <TextView
@@ -180,10 +184,10 @@
         android:visibility="invisible"
         android:textColor="@color/grey"
         android:textSize="20dp"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"
         app:layout_constraintBottom_toBottomOf="@id/view13"
         app:layout_constraintEnd_toEndOf="@id/view13"
-        app:layout_constraintStart_toStartOf="@id/view13"
-        app:layout_constraintTop_toTopOf="@id/view13" />
+        app:layout_constraintStart_toStartOf="@id/view13" />
     <ListView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
@@ -223,7 +227,7 @@
         android:id="@+id/textView4"
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="@dimen/margin_custom_alert"
         android:elevation="5dp"
         android:gravity="top"
         android:textColor="@color/semigrey"
@@ -236,7 +240,7 @@
         android:id="@+id/textView3"
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="@dimen/margin_custom_alert"
         android:elevation="5dp"
         android:gravity="top"
         android:textColor="@color/semigrey"
@@ -274,7 +278,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="@dimen/margin_custom_alert"
         android:elevation="5dp"
         android:text="Your Goal"
         android:textColor="@color/semigrey"
@@ -296,7 +300,7 @@
         android:id="@+id/textView24"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="@dimen/margin_custom_alert"
         android:elevation="5dp"
         android:text="Food Added"
         android:textColor="@color/semigrey"

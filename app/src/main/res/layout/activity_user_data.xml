@@ -19,7 +19,8 @@
 
     <EditText
         android:id="@+id/age"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="30dp"
         android:layout_height="45dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/login_creds_bg"
@@ -36,7 +37,8 @@
 
     <TextView
         android:id="@+id/activity_spinner"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="30dp"
         android:layout_height="45dp"
         android:layout_marginTop="10dp"
         android:paddingEnd="30dp"
@@ -56,19 +58,21 @@
 
     <LinearLayout
         android:id="@+id/lin"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_spinner">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="30dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
             <LinearLayout
-                android:layout_width="170dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:background="@drawable/login_creds_bg"
                 android:orientation="horizontal">
@@ -80,7 +84,7 @@
                     android:ems="10"
                     android:background="#00000000"
                     android:fontFamily="@font/robotoregular"
-                    android:hint="Height in"
+                    android:hint="Height"
                     android:inputType="number"
                     android:paddingStart="15dp"
                     android:textColor="@color/semigrey"
@@ -101,7 +105,8 @@
 
             <Spinner
                 android:id="@+id/gender_spinner"
-                android:layout_width="175dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="45dp"
                 android:layout_marginStart="10dp"
                 android:ems="10"
@@ -116,12 +121,14 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
             android:orientation="horizontal">
             <EditText
                 android:id="@+id/editTextweight1"
-                android:layout_width="170dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="45dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/login_creds_bg"
@@ -137,7 +144,8 @@
 
             <EditText
                 android:id="@+id/aimed_wt"
-                android:layout_width="170dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="45dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
@@ -157,7 +165,8 @@
 
     <EditText
         android:id="@+id/city"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="30dp"
         android:layout_height="45dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/login_creds_bg"
@@ -209,7 +218,8 @@
 
     <EditText
         android:id="@+id/editTextText"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="30dp"
         android:layout_height="45dp"
         android:layout_marginTop="70dp"
         android:background="@drawable/login_creds_bg"

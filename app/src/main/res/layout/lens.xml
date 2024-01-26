@@ -60,40 +60,48 @@
         android:id="@+id/recyclerViewScan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_above="@id/retake"
+        android:layout_above="@id/lens_btns"
         android:layout_below="@id/clicked" />
 
-    <Button
-        android:id="@+id/addIt"
-        android:layout_width="160dp"
-        android:layout_height="60dp"
-        android:layout_above="@+id/footer"
+    <LinearLayout
+        android:id="@+id/lens_btns"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="70dp"
-        android:layout_marginEnd="35dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/btn_bg_add"
-        android:fontFamily="@font/robotoregular"
-        android:text="ADD Item"
-        android:textSize="20dp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/retake"
-        android:layout_width="160dp"
-        android:layout_height="60dp"
+        android:elevation="2dp"
         android:layout_above="@+id/footer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:layout_toLeftOf="@id/addIt"
-        android:background="@drawable/scanfood"
-        android:fontFamily="@font/robotoregular"
-        android:text="Retake"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/retake"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="60dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/scanfood"
+            android:fontFamily="@font/robotoregular"
+            android:text="Retake"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/addIt"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="60dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/btn_bg_add"
+            android:fontFamily="@font/robotoregular"
+            android:text="ADD Item"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <include
         android:id="@+id/footer"

@@ -3,4 +3,6 @@
     <dimen name="textSize">18dp</dimen>
     <dimen name="padding">18dp</dimen>
     <dimen name="footer_height">65dp</dimen>
+    <dimen name="margin_custom_alert">30dp</dimen>
+    <dimen name="textsize_bucketlist">15sp</dimen>
 </resources>

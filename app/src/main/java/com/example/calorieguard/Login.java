@@ -127,6 +127,7 @@ public class Login extends AppCompatActivity {
                                     finish();
                                 }
                             } catch (ApiException e) {
+                                Toast.makeText(Login.this, ""+e.toString(), Toast.LENGTH_SHORT).show();
                                 Log.e("Error",""+e);
                             }
                         }

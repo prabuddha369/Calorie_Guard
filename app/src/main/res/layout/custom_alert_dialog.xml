@@ -21,7 +21,7 @@
         android:id="@+id/option1Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
+        android:layout_marginHorizontal="@dimen/margin_custom_alert"
         android:layout_marginBottom="10dp"
         android:background="@drawable/breakfastpopupbg"
         android:text="Breakfast" />
@@ -30,7 +30,7 @@
         android:id="@+id/option2Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
+        android:layout_marginHorizontal="@dimen/margin_custom_alert"
         android:layout_marginBottom="10dp"
         android:background="@drawable/lunch_popup_bg"
         android:text="Lunch" />
@@ -39,7 +39,7 @@
         android:id="@+id/option3Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
+        android:layout_marginHorizontal="@dimen/margin_custom_alert"
         android:layout_marginBottom="10dp"
         android:background="@drawable/dinner_popup_bg"
         android:text="Dinner" />
@@ -48,7 +48,7 @@
         android:id="@+id/option4Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
+        android:layout_marginHorizontal="@dimen/margin_custom_alert"
         android:layout_marginBottom="10dp"
         android:background="@drawable/snaks_popup_bg"
         android:text="Snacks" />
