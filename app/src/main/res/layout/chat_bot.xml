@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#F7F7F7"
+    tools:context=".CHAT_BOT"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="120dp"
+        android:elevation="5dp"
+        android:background="@drawable/chatviewbg">
+
+    </View>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="120dp"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@id/bottom_layout"
+        android:elevation="5dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="20dp"
+                android:textStyle="bold"
+                android:background="@drawable/chat_bubble_right"
+                android:fontFamily="@font/robotoregular"
+                android:gravity="center_vertical"
+                android:paddingStart="30dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="20dp"
+                android:textColor="@color/semigrey"
+                android:textSize="15dp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                android:layout_marginEnd="100dp"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/chat_bubble_left"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/answer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/robotoregular"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/semigrey"
+                    android:textSize="15dp" />
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:elevation="5dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/robotoregular"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:text="How to burn calories at home"/>
+
+                <TextView
+                    android:id="@+id/textView18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:elevation="5dp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/robotoregular"
+                    android:textSize="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Ideas for weight loss" />
+
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:elevation="5dp"
+                    android:fontFamily="@font/robotoregular"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="15dp"
+                    android:text="Recipie for making sandwich" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/footer"
+        android:elevation="7dp"
+        android:layout_marginBottom="10dp"
+        android:paddingHorizontal="10dp"
+        tools:layout_editor_absoluteX="16dp">
+
+        <EditText
+            android:id="@+id/messageEDT"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/chat_bot_text"
+            android:fontFamily="@font/robotoregular"
+            android:hint="ask here..."
+            android:padding="16dp"
+            android:paddingEnd="60dp"
+            android:paddingStart="20dp"
+            android:textColorHint="@color/semigrey" />
+
+        <ImageButton
+            android:id="@+id/send"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/ic_baseline_send_24"
+            android:elevation="5dp"
+            android:padding="8dp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/AICHAT"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="20dp" />
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/robotoregular"
+        android:layout_toEndOf="@id/AICHAT"
+        android:textStyle="bold"
+        android:text="Assistant"
+        android:textColor="@color/semigrey"
+        android:textSize="30dp" />
+
+    <include
+        android:id="@+id/footer"
+        layout="@layout/footer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

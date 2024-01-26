@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UserData">
+
+    <View
+        android:id="@+id/View4"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginStart="150dp"
+        android:background="@drawable/mainpagebg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/age"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/login_creds_bg"
+        android:ems="10"
+        android:fontFamily="@font/robotoregular"
+        android:hint="You'r Age"
+        android:inputType="number"
+        android:paddingStart="15dp"
+        android:textColor="@color/semigrey"
+        android:textColorHint="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+
+    <TextView
+        android:id="@+id/activity_spinner"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        android:paddingEnd="30dp"
+        android:textColorHint="@color/grey"
+        android:textColor="@color/semigrey"
+        android:fontFamily="@font/robotoregular"
+        android:background="@drawable/cred_spinner_bg"
+        android:paddingStart="10dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        android:hint="Select your Activity Level"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/age" />
+
+    <LinearLayout
+        android:id="@+id/lin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_spinner">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/login_creds_bg"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/editTextheight1"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="45dp"
+                    android:ems="10"
+                    android:background="#00000000"
+                    android:fontFamily="@font/robotoregular"
+                    android:hint="Height in"
+                    android:inputType="number"
+                    android:paddingStart="15dp"
+                    android:textColor="@color/semigrey"
+                    android:textColorHint="@color/grey" />
+
+                <Spinner
+                    android:id="@+id/unit"
+                    android:layout_width="0dp"
+                    android:layout_marginVertical="1dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/unit_spinner_bg"
+                    android:layout_weight="0.8"
+                    android:fontFamily="@font/robotoregular"
+                    android:gravity="center"
+                    android:textColor="@color/semigrey" />
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/gender_spinner"
+                android:layout_width="175dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:ems="10"
+                android:paddingEnd="15dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/robotoregular"
+                android:background="@drawable/cred_spinner_bg"
+                android:inputType="number"
+                android:paddingStart="10dp"
+                android:textColor="@color/semigrey"
+                android:textColorHint="@color/grey" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/editTextweight1"
+                android:layout_width="170dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/login_creds_bg"
+                android:ems="10"
+                android:fontFamily="@font/robotoregular"
+                android:hint="Weight in Kg"
+                android:inputType="number"
+                android:paddingStart="15dp"
+                android:textColor="@color/semigrey"
+                android:textColorHint="@color/grey"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextheight1" />
+
+            <EditText
+                android:id="@+id/aimed_wt"
+                android:layout_width="170dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/login_creds_bg"
+                android:ems="10"
+                android:fontFamily="@font/robotoregular"
+                android:hint="Aimed Weight"
+                android:inputType="number"
+                android:paddingStart="8dp"
+                android:textColor="@color/semigrey"
+                android:textColorHint="@color/grey"
+                app:layout_constraintStart_toEndOf="@+id/editTextweight1"
+                app:layout_constraintTop_toBottomOf="@+id/editTextheight1" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/city"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/login_creds_bg"
+        android:ems="10"
+        android:fontFamily="@font/robotoregular"
+        android:hint="Current Residing City, State, Country"
+        android:inputType="text"
+        android:paddingStart="15dp"
+        android:textColor="@color/semigrey"
+        android:textColorHint="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lin" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="90dp"
+        android:text="Details"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:text="To initiate your journey, we require a few details."
+        android:textColor="@color/semigrey"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView28" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:text="Name"
+        android:textColor="@color/grey"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/editTextText"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/login_creds_bg"
+        android:ems="10"
+        android:gravity="center_vertical"
+        android:paddingStart="15dp"
+        android:textColor="@color/semigrey"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView29" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/btn_bg"
+        android:text="Continue"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.91"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/city" />
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/View4"
+        app:layout_constraintVertical_bias="0.575" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

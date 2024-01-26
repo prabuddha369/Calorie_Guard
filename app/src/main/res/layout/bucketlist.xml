@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F7F7">
+
+    <RadioGroup
+        android:id="@+id/radioGroup2"
+        android:layout_width="350dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="@dimen/RadioBtn_MarginTop"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView2">
+
+        <RadioButton
+            android:id="@+id/looseweight"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:fontFamily="@font/robotoregular"
+            android:paddingStart="10dp"
+            android:text="Loose\nweight" />
+
+        <RadioButton
+            android:id="@+id/maintainweight"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:fontFamily="@font/robotoregular"
+            android:paddingStart="10dp"
+            android:text="Maintain\nweight" />
+
+        <RadioButton
+            android:id="@+id/gainweight"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:fontFamily="@font/robotoregular"
+            android:paddingStart="10dp"
+            android:text="Gain\nweight" />
+    </RadioGroup>
+
+    <View
+        android:id="@+id/view13"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/YourListHeight"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/listbox"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/include"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/addmore"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/additembg"
+        android:elevation="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/view13"
+        app:layout_constraintTop_toTopOf="@+id/view13" />
+
+    <TextView
+        android:id="@+id/buttondel"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/deleteallbg"
+        android:elevation="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/addmore"
+        app:layout_constraintTop_toTopOf="@+id/view13" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="@dimen/WhatsYourPlanMarginTop"
+        android:fontFamily="@font/robotoregular"
+        android:text="What's your plan?"
+        android:textAlignment="center"
+        android:textColor="@color/semigrey"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="10dp"
+        android:elevation="2dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/all"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="0.8"
+            android:background="@drawable/filterbgdefault"
+            android:fontFamily="@font/robotoregular"
+            android:gravity="center"
+            android:text="All"
+            android:textColor="@color/black"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/breakfast_f"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1.8"
+            android:background="@drawable/filterbgdefault"
+            android:fontFamily="@font/robotoregular"
+            android:gravity="center"
+            android:text="Breakfast"
+            android:textColor="@color/black"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/lunch_f"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1.2"
+            android:background="@drawable/filterbgdefault"
+            android:fontFamily="@font/robotoregular"
+            android:gravity="center"
+            android:text="Lunch"
+            android:textColor="@color/black"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/dinner_f"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1.2"
+            android:background="@drawable/filterbgdefault"
+            android:fontFamily="@font/robotoregular"
+            android:gravity="center"
+            android:text="Dinner"
+            android:textColor="@color/black"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/snacks_f"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_weight="1.4"
+            android:background="@drawable/filterbgdefault"
+            android:fontFamily="@font/robotoregular"
+            android:gravity="center"
+            android:text="Snacks"
+            android:textColor="@color/black"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/emptylist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:text="List is Empty"
+        android:visibility="invisible"
+        android:textColor="@color/grey"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/view13"
+        app:layout_constraintEnd_toEndOf="@id/view13"
+        app:layout_constraintStart_toStartOf="@id/view13"
+        app:layout_constraintTop_toTopOf="@id/view13" />
+    <ListView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/YourListListViewHeight"
+        android:layout_marginHorizontal="30dp"
+        android:elevation="2dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="@+id/view13"
+        app:layout_constraintStart_toStartOf="@+id/view13"
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+    <View
+        android:id="@+id/view6"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="@dimen/RadioBtn_MarginTop"
+        android:layout_marginHorizontal="30dp"
+        android:background="@drawable/listbox"
+        android:elevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginHorizontal="30dp"
+        android:src="@drawable/analytics_bg"
+        android:elevation="2dp"
+        android:alpha="0.5"
+        app:layout_constraintBottom_toBottomOf="@+id/view6"
+        app:layout_constraintEnd_toEndOf="@+id/view6"
+        app:layout_constraintStart_toStartOf="@+id/view6"
+        app:layout_constraintTop_toTopOf="@id/view6"/>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="30dp"
+        android:elevation="5dp"
+        android:gravity="top"
+        android:textColor="@color/semigrey"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/view6"
+        app:layout_constraintTop_toBottomOf="@+id/textView24" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="30dp"
+        android:elevation="5dp"
+        android:gravity="top"
+        android:textColor="@color/semigrey"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/view6"
+        app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:elevation="5dp"
+        android:text="Analytics"
+        android:textColor="@color/semigrey"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/view6"
+        app:layout_constraintTop_toTopOf="@+id/view6" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="3dp"
+        android:elevation="5dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/flag"
+        app:layout_constraintEnd_toStartOf="@+id/textView22"
+        app:layout_constraintTop_toTopOf="@+id/textView22" />
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="30dp"
+        android:elevation="5dp"
+        android:text="Your Goal"
+        android:textColor="@color/semigrey"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/view6"
+        app:layout_constraintTop_toTopOf="@+id/view6" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginTop="10dp"
+        android:elevation="5dp"
+        android:src="@drawable/dong"
+        app:layout_constraintEnd_toStartOf="@+id/textView22"
+        app:layout_constraintTop_toTopOf="@+id/textView24" />
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:elevation="5dp"
+        android:text="Food Added"
+        android:textColor="@color/semigrey"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/view6"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <ProgressBar
+        android:id="@+id/progressBarana"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_centerInParent="true"
+        android:elevation="5dp"
+        android:indeterminate="false"
+        android:layout_marginStart="20dp"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/circular_progress_drawable"
+        app:layout_constraintBottom_toBottomOf="@+id/view6"
+        app:layout_constraintStart_toStartOf="@+id/view6"
+        app:layout_constraintTop_toTopOf="@+id/view6"
+        app:layout_constraintVertical_bias="0.8" />
+
+    <TextView
+        android:id="@+id/percentage"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:elevation="5dp"
+        android:paddingBottom="10dp"
+        android:gravity="center"
+        android:textColor="@color/semigrey"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarana"
+        app:layout_constraintEnd_toEndOf="@+id/progressBarana"
+        app:layout_constraintStart_toStartOf="@+id/progressBarana"
+        app:layout_constraintTop_toTopOf="@+id/progressBarana" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:text="consumed"
+        android:textColor="@color/semigrey"
+        android:textStyle="bold"
+        android:textSize="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarana"
+        app:layout_constraintEnd_toEndOf="@+id/progressBarana"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/progressBarana"
+        app:layout_constraintTop_toTopOf="@+id/progressBarana"
+        app:layout_constraintVertical_bias="0.6" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:elevation="5dp"
+        android:text="Today's List"
+        android:textColor="@color/semigrey"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/view13"
+        app:layout_constraintTop_toTopOf="@id/view13" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:text="Calorie Guard"
+        android:textColor="#FF4C00"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.041"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ProgressBar
+        android:id="@+id/progressBar6"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.524"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.565" />
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/footer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

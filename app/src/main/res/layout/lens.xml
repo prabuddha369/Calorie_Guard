@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <SurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="2dp" />
+
+    <ImageView
+        android:id="@+id/clicked"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"/>
+
+    <ImageView
+        android:id="@+id/clicked_long"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_above="@id/footer"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/snap"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:layout_above="@+id/footer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/scanfood"
+        android:elevation="5dp"
+        android:fontFamily="@font/robotoregular"
+        android:gravity="center"
+        android:text="scan food"
+        android:textColor="@color/semigrey"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/nofood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/clicked"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="No food item in the image!"
+        android:textColor="@color/semigrey"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewScan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_above="@id/retake"
+        android:layout_below="@id/clicked" />
+
+    <Button
+        android:id="@+id/addIt"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/footer"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/btn_bg_add"
+        android:fontFamily="@font/robotoregular"
+        android:text="ADD Item"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/retake"
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/footer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:layout_toLeftOf="@id/addIt"
+        android:background="@drawable/scanfood"
+        android:fontFamily="@font/robotoregular"
+        android:text="Retake"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <include
+        android:id="@+id/footer"
+        layout="@layout/footer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/feature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:elevation="5dp"
+        android:layout_marginTop="10dp"
+        android:background="#50000000"
+        android:visibility="gone"
+        android:padding="10dp"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:elevation="5dp"
+        android:visibility="gone"
+        android:indeterminateDrawable="@drawable/scanning_bar"
+        android:indeterminateDuration="1000"
+        android:indeterminateOnly="true" />
+
+</RelativeLayout>

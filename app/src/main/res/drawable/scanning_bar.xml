@@ -1,0 +1,17 @@
+<!-- res/drawable/rotating_gradient.xml -->
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromDegrees="0"
+    android:toDegrees="360"
+    android:pivotX="50%"
+    android:pivotY="50%">
+    <shape android:shape="ring"
+        android:thickness="10dp">
+        <gradient
+            android:startColor="#0267ff"
+            android:centerColor="#896d93"
+            android:endColor="#ff4c00"
+            android:angle="45"
+            android:type="linear" />
+        <size android:width="20dp" android:height="20dp" />
+    </shape>
+</rotate>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="textSize">18dp</dimen>
+    <dimen name="padding">18dp</dimen>
+    <dimen name="footer_height">65dp</dimen>
+</resources>

@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:elevation="10dp"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/AL1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/login_creds_bg"
+        android:padding="10dp"
+        android:text="Sedentary Activity: (Little to No workout per week)"
+        android:textColor="@color/semigrey"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/AL2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/login_creds_bg"
+        android:padding="10dp"
+        android:text="Lightly Active: (2-3 hrs of low intensity workout per week)"
+        android:textColor="@color/semigrey"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/AL3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/login_creds_bg"
+        android:padding="10dp"
+        android:text="Moderately Active: (3-5 hrs of workout/sports like football per week)"
+        android:textColor="@color/semigrey"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/AL4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/login_creds_bg"
+        android:padding="10dp"
+        android:text="Very Active: (5-7 hrs of workout/sports like football per week)"
+        android:textColor="@color/semigrey"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/AL5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/login_creds_bg"
+        android:padding="10dp"
+        android:text="Extra Active: (10-15 hrs of workout/sports like football per week)"
+        android:textColor="@color/semigrey"
+        android:textSize="18sp" />
+</LinearLayout>

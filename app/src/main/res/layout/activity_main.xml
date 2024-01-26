@@ -1,0 +1,828 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F7F7"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginStart="150dp"
+        android:src="@drawable/mainpagebg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="90dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/searchfield"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/menubtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/userdp"
+                    android:layout_width="41dp"
+                    android:layout_height="41dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="20dp" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:fontFamily="@font/robotoregular"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:text="Hey,"
+                    android:textColor="@color/black"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/robotoregular"
+                    android:paddingTop="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="25dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/login_creds_bg"
+                android:backgroundTint="@color/white"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:elevation="6dp"
+                    android:text="Calories"
+                    android:textColor="@color/semigrey"
+                    android:textSize="23dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/Lweight"
+                            android:layout_width="80dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/circleloosewt"
+                            android:elevation="5dp"
+                            android:gravity="center"
+                            android:textAlignment="center"
+                            android:textColor="@color/semigrey"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/CurrCal"
+                            android:layout_width="80dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginHorizontal="10dp"
+                            android:background="@drawable/circlemaintainwt"
+                            android:elevation="5dp"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:paddingTop="5dp"
+                            android:textAlignment="center"
+                            android:textColor="@color/semigrey"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/Gweight"
+                            android:layout_width="80dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginHorizontal="10dp"
+                            android:background="@drawable/circlegainwt"
+                            android:elevation="5dp"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:textAlignment="center"
+                            android:textColor="@color/semigrey"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:elevation="6dp"
+                        android:text="Loose"
+                        android:textAlignment="center"
+                        android:textColor="@color/semigrey"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        tools:layout_editor_absoluteX="51dp"
+                        tools:layout_editor_absoluteY="295dp" />
+
+                    <TextView
+                        android:id="@+id/textView21"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:elevation="6dp"
+                        android:text="Maintain"
+                        android:textAlignment="center"
+                        android:textColor="@color/semigrey"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        tools:layout_editor_absoluteX="167dp"
+                        tools:layout_editor_absoluteY="295dp" />
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:elevation="6dp"
+                        android:text="Gain"
+                        android:textAlignment="center"
+                        android:textColor="@color/semigrey"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        tools:layout_editor_absoluteX="280dp"
+                        tools:layout_editor_absoluteY="295dp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="210dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/AH"
+                    android:layout_width="0dp"
+                    android:layout_height="190dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/login_creds_bg"
+                    android:backgroundTint="@color/white"
+                    android:elevation="2dp"
+                    android:orientation="vertical"
+                    tools:layout_editor_absoluteX="30dp"
+                    tools:layout_editor_absoluteY="358dp">
+
+                    <TextView
+                        android:id="@+id/textView26"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:elevation="5dp"
+                        android:text="Data"
+                        android:textColor="@color/semigrey"
+                        android:textSize="25dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView25"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="20dp"
+                        android:elevation="5dp"
+                        android:text="Age"
+                        android:textColor="@color/semigrey"
+                        android:textSize="20dp"
+                        tools:layout_editor_absoluteX="44dp"
+                        tools:layout_editor_absoluteY="423dp" />
+
+                    <TextView
+                        android:id="@+id/agetv"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:elevation="5dp"
+                        android:gravity="top"
+                        android:textColor="@color/semigrey"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        tools:layout_editor_absoluteX="44dp"
+                        tools:layout_editor_absoluteY="449dp" />
+
+                    <TextView
+                        android:id="@+id/textView23"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:elevation="5dp"
+                        android:text="Height"
+                        android:textColor="@color/semigrey"
+                        android:textSize="20dp"
+                        tools:layout_editor_absoluteX="44dp"
+                        tools:layout_editor_absoluteY="484dp" />
+
+                    <TextView
+                        android:id="@+id/heighttv"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:elevation="5dp"
+                        android:textColor="@color/semigrey"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        tools:layout_editor_absoluteX="44dp"
+                        tools:layout_editor_absoluteY="511dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="190dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_weight="1.1"
+                    android:background="@drawable/login_creds_bg"
+                    android:backgroundTint="@color/white"
+                    android:elevation="2dp"
+                    android:orientation="vertical"
+                    tools:layout_editor_absoluteX="187dp"
+                    tools:layout_editor_absoluteY="358dp">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:elevation="5dp"
+                        android:text="Weight"
+                        android:textColor="@color/semigrey"
+                        android:textSize="25dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/HW"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:gravity="center"
+                        android:textColor="@color/semigrey"
+                        android:textSize="45dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:id="@+id/meals"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="160dp"
+                        android:layout_height="210dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/breakfastbg"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_weight="2"
+                                android:text="Breakfast"
+                                android:textColor="#99000000"
+                                android:textSize="25dp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:id="@+id/addB"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_weight="2"
+                                android:src="@drawable/additembg" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="Calories"
+                            android:textColor="@color/darkgrey"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/breakfastCal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="0 cal"
+                            android:textColor="#99000000"
+                            android:textSize="20dp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="end"
+                            android:src="@drawable/breakfast" />
+
+                        <TextView
+                            android:id="@+id/seelistB"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:text="see list"
+                            android:textColor="@color/darkgrey"
+                            android:textSize="15dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="160dp"
+                        android:layout_height="210dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/lunchbg"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_weight="2"
+                                android:text="Lunch"
+                                android:textColor="#99000000"
+                                android:textSize="25dp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:id="@+id/addL"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_weight="2"
+                                android:src="@drawable/additembg" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="Calories"
+                            android:textColor="@color/semigrey"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/LunchCal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="0 cal"
+                            android:textColor="#99000000"
+                            android:textSize="20dp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="end"
+                            android:src="@drawable/lunch" />
+
+                        <TextView
+                            android:id="@+id/seelistL"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:text="see list"
+                            android:textColor="@color/semigrey"
+                            android:textSize="15dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="160dp"
+                        android:layout_height="210dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/dinnerbg"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_weight="2"
+                                android:text="Dinner"
+                                android:textColor="#99000000"
+                                android:textSize="25dp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:id="@+id/addD"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_weight="2"
+                                android:src="@drawable/additembg" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="Calories"
+                            android:textColor="@color/darkgrey"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/dinnerCal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="0 cal"
+                            android:textColor="#99000000"
+                            android:textSize="20dp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="end"
+                            android:src="@drawable/dinner" />
+
+                        <TextView
+                            android:id="@+id/seelistD"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:text="see list"
+                            android:textColor="@color/darkgrey"
+                            android:textSize="15dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="160dp"
+                        android:layout_height="210dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/breakfastbg"
+                        android:backgroundTint="#AC71F7"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_weight="2"
+                                android:text="Snacks"
+                                android:textColor="#99000000"
+                                android:textSize="25dp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:id="@+id/addS"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_weight="2"
+                                android:src="@drawable/additembg" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:text="Calories"
+                            android:textColor="@color/darkgrey"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/snaksCal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="0 cal"
+                            android:textColor="#99000000"
+                            android:textSize="20dp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="end"
+                            android:src="@drawable/snacks" />
+
+                        <TextView
+                            android:id="@+id/seeListS"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:text="see list"
+                            android:textColor="@color/darkgrey"
+                            android:textSize="15dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/menuview"
+        android:layout_width="220dp"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:elevation="12dp"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/menutext"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/menuimg"
+            android:textColor="@color/semigrey"
+            android:textSize="30dp"
+            android:textStyle="bold">
+
+            <ImageView
+                android:id="@+id/cross"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/cross" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/profile_btn"
+            android:paddingStart="35dp"
+            android:text="Profile"
+            android:textColor="@color/semigrey"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/setting_btn"
+            android:paddingStart="35dp"
+            android:text="Settings"
+            android:textColor="@color/semigrey"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/pvp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/privacy_btn"
+            android:paddingStart="35dp"
+            android:text="Privacy Policy"
+            android:textColor="@color/semigrey"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tandc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/tandc_btn_bg"
+            android:paddingStart="35dp"
+            android:text="Terms &amp; Condition"
+            android:textColor="@color/semigrey"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/abtus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/aboutus_btn"
+            android:paddingStart="35dp"
+            android:text="About Us"
+            android:textColor="@color/semigrey"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/buttonsignout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/signout_btn_bg"
+            android:paddingStart="35dp"
+            android:text="Sign Out"
+            android:textColor="@color/semigrey"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.591" />
+
+    <include
+        android:id="@+id/include3"
+        layout="@layout/footer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/searchcover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/listbox"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/additem"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="30dp"
+        android:background="@drawable/additembutton"
+        android:elevation="5dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toTopOf="@id/include3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="35dp" />
+
+    <LinearLayout
+        android:id="@+id/searchfield"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/additem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <AutoCompleteTextView
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginVertical="10dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="2"
+            android:background="@drawable/searchbar"
+            android:completionThreshold="1"
+            android:elevation="2dp"
+            android:fontFamily="@font/robotoregular"
+            android:hint="Search Foods"
+            android:paddingStart="40dp"
+            android:paddingEnd="5dp"
+            android:singleLine="true"
+            android:textColorHint="@color/grey"
+            android:textSize="@dimen/textSize" />
+
+        <AutoCompleteTextView
+            android:id="@+id/fd_wt"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/weightbg"
+            android:completionThreshold="1"
+            android:elevation="2dp"
+            android:fontFamily="@font/robotoregular"
+            android:hint="Weight in g"
+            android:inputType="number"
+            android:paddingStart="10dp"
+            android:singleLine="true"
+            android:textColorHint="@color/grey"
+            android:textSize="@dimen/textSize" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
+        android:elevation="10dp"
+        android:text="Calorie Guard"
+        android:textColor="#FF4C00"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.041"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

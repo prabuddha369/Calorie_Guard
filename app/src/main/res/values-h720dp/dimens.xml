@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="height_size_login_cover">200dp</dimen>
+    <dimen name="height_size_login_emailpass">50dp</dimen>
+    <dimen name="signup_margin_top">200dp</dimen>
+    <dimen name="WhatsYourPlanMarginTop">20dp</dimen>
+    <dimen name="RadioBtn_MarginTop">1dp</dimen>
+    <dimen name="YourListHeight">230dp</dimen>
+    <dimen name="YourListListViewHeight">130dp</dimen>
+    <dimen name="caloriemeter_height">80dp</dimen>
+</resources>
