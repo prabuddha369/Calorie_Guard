@@ -1,4 +1,4 @@
-# Contributing Guidelines for [Your Project Name]
+# Contributing Guidelines for Calorie Guard.
 
 Thank you for considering contributing to Calorie Guard! We appreciate your interest and welcome any contributions to enhance the project. Before you start contributing, please take a moment to read the following guidelines.
 
