@@ -48,51 +48,40 @@ Thank you for considering contributing to Calorie Guard! We appreciate your inte
 - If you encounter any issues, bugs, or have suggestions, please open an issue on the GitHub repository.
 - Follow this format to raise an issue.
 
-### Issue Title
+   ### Issue Title
+   [Concise and descriptive title for the issue]
+  
+   ### Issue Description
+   [Provide a clear and detailed description of the issue or the new feature you're suggesting.]
+  
+   ### Expected Behavior
+   [Explain what behavior you expected to see.]
+  
+   ### Current Behavior
+   [Explain what behavior is currently occurring.]
+  
+   ### Steps to Reproduce (for bugs)
+   [If it's a bug, provide detailed steps to reproduce the issue.]
+   1. Step 1
+   2. Step 2
+   3. ...
 
-[Concise and descriptive title for the issue]
+   ### Screenshots/GIFs (if applicable)
+   [Include screenshots or GIFs if they help illustrate the issue.]
 
-### Issue Description
+   ### Environment
+   [Provide information about your environment, such as operating system, browser, etc.]
 
-[Provide a clear and detailed description of the issue or the new feature you're suggesting.]
+   ### Additional Information
+   [Any additional information or context that might be helpful in resolving the issue.]
 
-### Expected Behavior
+   ### Your Contribution
+   [If you plan to contribute a fix for this issue, let us know!]
 
-[Explain what behavior you expected to see.]
-
-### Current Behavior
-
-[Explain what behavior is currently occurring.]
-
-### Steps to Reproduce (for bugs)
-
-[If it's a bug, provide detailed steps to reproduce the issue.]
-
-1. Step 1
-2. Step 2
-3. ...
-
-### Screenshots/GIFs (if applicable)
-
-[Include screenshots or GIFs if they help illustrate the issue.]
-
-### Environment
-
-[Provide information about your environment, such as operating system, browser, etc.]
-
-### Additional Information
-
-[Any additional information or context that might be helpful in resolving the issue.]
-
-### Your Contribution
-
-[If you plan to contribute a fix for this issue, let us know!]
-
-### Issue Type
-
-- [ ] Bug Report
-- [ ] Feature Request
-- [ ] Other (Please specify)
+   ### Issue Type
+   - [ ] Bug Report
+   - [ ] Feature Request
+   - [ ] Other (Please specify)
 
 
 ## Communication
