@@ -22,26 +22,29 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class LocationUpdater {
 
     private static final String TAG = "LocationUpdater";
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
 
-    private Context context;
-    private DatabaseReference mDatabase;
-    private FusedLocationProviderClient fusedLocationClient;
+    private final Context context;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FusedLocationProviderClient fusedLocationClient;
 
     public LocationUpdater(Context context) {
         this.context = context;
-        this.mDatabase = FirebaseDatabase.getInstance("https://calorie-guard-412008-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users");
         this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
     }
 
@@ -56,7 +59,7 @@ public class LocationUpdater {
                             Log.d(TAG, "Last Known Location: " + location.toString());
 
                             // Update the location in Firebase
-                            updateLocationInFirebase(userNode, location,city);
+                            updateLocationInFirestore(userNode, location,city);
                         } else {
                             // If last known location is not available, request location updates
                             requestLocationUpdatesContinuously(userNode,city);
@@ -91,27 +94,37 @@ public class LocationUpdater {
                     Log.d(TAG, "Location Update: " + location.toString());
 
                     // Update the location in Firebase
-                    updateLocationInFirebase(userNode, location,city);
+                    updateLocationInFirestore(userNode, location,city);
                 }
             }
         }, Looper.getMainLooper());
     }
 
 
-    private void updateLocationInFirebase(String userNode, Location location,TextView city) {
-        getCityStateCountry(context,location.getLatitude(),location.getLongitude(),city);
+    private void updateLocationInFirestore(String userNode, Location location, TextView city) {
+        getCityStateCountry(context, location.getLatitude(), location.getLongitude(), city);
 
-        HashMap<String, Object> hashMap=new HashMap<>();
-        hashMap.put("Latitude",location.getLatitude());
-        hashMap.put("Longitude",location.getLongitude());
-        hashMap.put("Altitude",location.getAltitude());
-        hashMap.put("Accuracy",location.getAccuracy());
+        Map<String, Object> locationData = new HashMap<>();
+        locationData.put("Latitude", location.getLatitude());
+        locationData.put("Longitude", location.getLongitude());
+        locationData.put("Altitude", location.getAltitude());
+        locationData.put("Accuracy", location.getAccuracy());
 
-        mDatabase.child(userNode).child("Location").setValue(hashMap)
+        db.collection("Users")
+                .document(userNode)
+                .collection("Location")
+                .document("During Sign Up")
+                .set(locationData, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Location updated successfully in Firestore!");
+                    }
+                })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("Location Error",e.toString());
+                        Log.d("Location Error", e.toString());
                     }
                 });
     }

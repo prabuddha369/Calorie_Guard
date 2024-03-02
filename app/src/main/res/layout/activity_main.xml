@@ -654,17 +654,6 @@
             android:textSize="20dp" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/setting_btn"
-            android:paddingStart="35dp"
-            android:text="Settings"
-            android:textColor="@color/semigrey"
-            android:textSize="20dp" />
-
-        <TextView
             android:id="@+id/pvp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -742,6 +731,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/listbox"
         android:elevation="5dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

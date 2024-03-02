@@ -3,8 +3,10 @@ package com.example.calorieguard;
 import android.Manifest;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,6 +34,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -86,6 +89,7 @@ public class Lens extends AppCompatActivity {
             "Scanning...",
             "Recognizing foods...",
             "Identifying patterns...",
+            "Refining weight detection algorithms...",
             "Optimizing algorithms...",
             "Scanning database...",
             "Analyzing results...",
@@ -105,6 +109,7 @@ public class Lens extends AppCompatActivity {
     private Handler handler;
     private static final int Per = 100;
     int i = 2;
+    private static String geminiapi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +118,8 @@ public class Lens extends AppCompatActivity {
         View rootView = findViewById(android.R.id.content);
 
         Objects.requireNonNull(getSupportActionBar()).hide();
-        surfaceView = (SurfaceView) findViewById(R.id.surfaceView);
+
+        surfaceView = findViewById(R.id.surfaceView);
         OverlayDrawable overlayDrawable = new OverlayDrawable(this); // Adjust the corner size as needed
         surfaceView.setBackground(overlayDrawable);
 
@@ -126,7 +132,6 @@ public class Lens extends AppCompatActivity {
         nofood=findViewById(R.id.nofood);
         recyclerView = findViewById(R.id.recyclerViewScan);
         pg=findViewById(R.id.progressBar);
-
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new RecyclerViewAdapter(dataList);
@@ -158,15 +163,16 @@ public class Lens extends AppCompatActivity {
         retake.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    isProcessingPicture = false;
-                    feature.setVisibility(View.GONE);
-                    surfaceView.setVisibility(View.VISIBLE);
-                    clicked.setVisibility(View.GONE);
-                    retake.setVisibility(View.GONE);
-                    addit.setVisibility(View.GONE);
-                    nofood.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.GONE);
-                    snap.setVisibility(View.VISIBLE);
+                isProcessingPicture = false;
+                dataList.clear();
+                feature.setVisibility(View.GONE);
+                surfaceView.setVisibility(View.VISIBLE);
+                clicked.setVisibility(View.GONE);
+                retake.setVisibility(View.GONE);
+                addit.setVisibility(View.GONE);
+                nofood.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
+                snap.setVisibility(View.VISIBLE);
             }
         });
 
@@ -268,6 +274,9 @@ public class Lens extends AppCompatActivity {
 
 
     private void takeSnapFromSurfaceView() throws CameraAccessException {
+        SharedPreferences preferences = getSharedPreferences("MyPrefKeys", Context.MODE_PRIVATE);
+        geminiapi = preferences.getString("api_key", null);
+
         if (isProcessingPicture) {
             return; // Ignore multiple clicks while processing a picture
         }
@@ -316,135 +325,200 @@ public class Lens extends AppCompatActivity {
                     snap.setVisibility(View.GONE);
                     pg.setVisibility(View.VISIBLE);
 
-                    GenerativeModel gm = new GenerativeModel("gemini-pro-vision",getString(R.string.Gemini_API_Key));
-                    GenerativeModelFutures model = GenerativeModelFutures.from(gm);
+                    if(geminiapi==null)
+                    {
+                        FirebaseAPIFetcher fetcher = new FirebaseAPIFetcher();
+                        fetcher.getAPIData().observe(Lens.this, apiData -> {
+                            geminiapi = apiData.geminiAPI;
 
-                    Content content = new Content.Builder()
-                            .addText(getString(R.string.Special_Promt))
-                            .addImage(squareBitmap)
-                            .build();
+                            SharedPreferences preferences = getSharedPreferences("MyPrefKeys", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            String encryptedApiKey=encryptString(geminiapi,getString(R.string.XOR_Key));
+                            editor.putString("api_key", encryptedApiKey);
+                            editor.apply();
 
-                    Executor executor = Executors.newFixedThreadPool(1);
+                            GenerativeModel gm = new GenerativeModel("gemini-pro-vision",geminiapi);
+                            GenerativeModelFutures model = GenerativeModelFutures.from(gm);
 
-                    ListenableFuture<GenerateContentResponse> response = model.generateContent(content);
-                    Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
-                        @Override
-                        public void onSuccess(GenerateContentResponse result) {
-                            resultText = result.getText();
-                            Log.d("Error",resultText);
-                            try {
-                                StringBuilder macros= new StringBuilder();
-                                jsonArray = new JSONArray(resultText);
-                                // Iterate over the JSONArray and process each JSONObject
-                                for (int i = 0; i < jsonArray.length(); i++) {
+                            Content content = new Content.Builder()
+                                    .addText(getString(R.string.Special_Promt))
+                                    .addImage(squareBitmap)
+                                    .build();
+
+                            Executor executor = Executors.newFixedThreadPool(1);
+
+                            ListenableFuture<GenerateContentResponse> response = model.generateContent(content);
+                            Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
+                                @Override
+                                public void onSuccess(GenerateContentResponse result) {
+                                    resultText = result.getText();
+                                    Log.d("Error",resultText);
                                     try {
-                                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                        StringBuilder macros= new StringBuilder();
+                                        jsonArray = new JSONArray(resultText);
+                                        // Iterate over the JSONArray and process each JSONObject
+                                        for (int i = 0; i < jsonArray.length(); i++) {
+                                            try {
+                                                JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                                        // Access individual values
-                                        String name = jsonObject.optString("Name");
-                                        String quantity = jsonObject.optString("Quantity");
-                                        int calorie = jsonObject.optInt("Calorie");
-                                        String protein = jsonObject.optString("Protein");
-                                        String carbohydrate = jsonObject.optString("Carbohydrate");
-                                        String sugar = jsonObject.optString("Sugar");
-                                        String fat = jsonObject.optString("Fat");
-                                        String glycemicIndex = jsonObject.optString("Glycemic Index");
+                                                // Access individual values
+                                                String name = jsonObject.optString("Name");
+                                                String quantity = jsonObject.optString("Quantity");
+                                                int calorie = jsonObject.optInt("Calorie");
+                                                String protein = jsonObject.optString("Protein");
+                                                String carbohydrate = jsonObject.optString("Carbohydrate");
+                                                String sugar = jsonObject.optString("Sugar");
+                                                String fat = jsonObject.optString("Fat");
+                                                String glycemicIndex = jsonObject.optString("Glycemic Index");
 
-                                        macros.append("Protein: ").append(protein).append("\nCarbohydrate: ").append(carbohydrate).append("\nSugar: ").append(sugar).append("\nFat: ").append(fat).append("\nGlycemic Index: ").append(glycemicIndex);
-                                        Log.d("Macros",macros.toString());
-                                        dataList.add(new DataModel(Integer.toString(calorie), quantity,macros.toString().trim(),name));
-                                        macros.setLength(0);
+                                                macros.append("Protein: ").append(protein).append("\nCarbohydrate: ").append(carbohydrate).append("\nSugar: ").append(sugar).append("\nFat: ").append(fat).append("\nGlycemic Index: ").append(glycemicIndex);
+
+                                                Log.d("Macros",macros.toString());
+                                                dataList.add(new DataModel(Integer.toString(calorie), quantity,macros.toString(),name));
+                                                macros.setLength(0);
+                                            } catch (JSONException e) {
+                                                break;
+                                            }
+                                        }
+
+                                        Lens.this.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                clicked.setVisibility(View.VISIBLE);
+                                                clicked.setImageBitmap(squareBitmap);
+                                                clicked.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                                                clicked_long.setVisibility(View.GONE);
+                                                recyclerView.setVisibility(View.VISIBLE);
+                                                adapter = new RecyclerViewAdapter(dataList);
+                                                recyclerView.setAdapter(adapter);
+                                                pg.setVisibility(View.GONE);
+                                                retake.setVisibility(View.VISIBLE);
+                                                addit.setVisibility(View.VISIBLE);
+                                                stopTextUpdate();
+                                                feature.setVisibility(View.GONE);
+                                            }
+                                        });
+
                                     } catch (JSONException e) {
-                                        break;
+                                        Lens.this.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                clicked.setVisibility(View.VISIBLE);
+                                                clicked.setImageBitmap(squareBitmap);
+                                                clicked.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                                                clicked_long.setVisibility(View.GONE);
+                                                recyclerView.setVisibility(View.GONE);
+                                                nofood.setVisibility(View.VISIBLE);
+                                                pg.setVisibility(View.GONE);
+                                                retake.setVisibility(View.VISIBLE);
+                                                addit.setVisibility(View.GONE);
+                                                stopTextUpdate();
+                                                feature.setVisibility(View.GONE);
+                                            }
+                                        });
                                     }
                                 }
 
-                                Lens.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        clicked.setVisibility(View.VISIBLE);
-                                        clicked.setImageBitmap(squareBitmap);
-                                        clicked.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                                @Override
+                                public void onFailure(@NonNull Throwable t) {
+                                    t.printStackTrace();
+                                }
+                            }, executor);
+                        });
+                    }
+                    else {
+                        geminiapi=encryptString(geminiapi,getString(R.string.XOR_Key));
 
-                                        clicked_long.setVisibility(View.GONE);
-                                        recyclerView.setVisibility(View.VISIBLE);
-                                        adapter = new RecyclerViewAdapter(dataList);
-                                        recyclerView.setAdapter(adapter);
-                                        pg.setVisibility(View.GONE);
-                                        retake.setVisibility(View.VISIBLE);
-                                        addit.setVisibility(View.VISIBLE);
-                                        stopTextUpdate();
-                                        feature.setVisibility(View.GONE);
-                                    }
-                                });
+                        GenerativeModel gm = new GenerativeModel("gemini-pro-vision",geminiapi);
+                        GenerativeModelFutures model = GenerativeModelFutures.from(gm);
 
-                            } catch (JSONException e) {
-                                Lens.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        clicked.setVisibility(View.VISIBLE);
-                                        clicked.setImageBitmap(squareBitmap);
-                                        clicked.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                                        clicked_long.setVisibility(View.GONE);
-                                        recyclerView.setVisibility(View.GONE);
-                                        nofood.setVisibility(View.VISIBLE);
-                                        pg.setVisibility(View.GONE);
-                                        retake.setVisibility(View.VISIBLE);
-                                        addit.setVisibility(View.GONE);
-                                        stopTextUpdate();
-                                        feature.setVisibility(View.GONE);
+                        Content content = new Content.Builder()
+                                .addText(getString(R.string.Special_Promt))
+                                .addImage(squareBitmap)
+                                .build();
+
+                        Executor executor = Executors.newFixedThreadPool(1);
+
+                        ListenableFuture<GenerateContentResponse> response = model.generateContent(content);
+                        Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
+                            @Override
+                            public void onSuccess(GenerateContentResponse result) {
+                                resultText = result.getText();
+                                Log.d("Error",resultText);
+                                try {
+                                    StringBuilder macros= new StringBuilder();
+                                    jsonArray = new JSONArray(resultText);
+                                    // Iterate over the JSONArray and process each JSONObject
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        try {
+                                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                            // Access individual values
+                                            String name = jsonObject.optString("Name");
+                                            String quantity = jsonObject.optString("Quantity");
+                                            int calorie = jsonObject.optInt("Calorie");
+                                            String protein = jsonObject.optString("Protein");
+                                            String carbohydrate = jsonObject.optString("Carbohydrate");
+                                            String sugar = jsonObject.optString("Sugar");
+                                            String fat = jsonObject.optString("Fat");
+                                            String glycemicIndex = jsonObject.optString("Glycemic Index");
+
+                                            macros.append("Protein: ").append(protein).append("\nCarbohydrate: ").append(carbohydrate).append("\nSugar: ").append(sugar).append("\nFat: ").append(fat).append("\nGlycemic Index: ").append(glycemicIndex);
+
+                                            Log.d("Macros",macros.toString());
+                                            dataList.add(new DataModel(Integer.toString(calorie),quantity,macros.toString(),name));
+                                            macros.setLength(0);
+                                        } catch (JSONException e) {
+                                            break;
+                                        }
                                     }
-                                });
+
+                                    Lens.this.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            clicked.setVisibility(View.VISIBLE);
+                                            clicked.setImageBitmap(squareBitmap);
+                                            clicked.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                                            clicked_long.setVisibility(View.GONE);
+                                            recyclerView.setVisibility(View.VISIBLE);
+                                            adapter = new RecyclerViewAdapter(dataList);
+                                            recyclerView.setAdapter(adapter);
+                                            pg.setVisibility(View.GONE);
+                                            retake.setVisibility(View.VISIBLE);
+                                            addit.setVisibility(View.VISIBLE);
+                                            stopTextUpdate();
+                                            feature.setVisibility(View.GONE);
+                                        }
+                                    });
+
+                                } catch (JSONException e) {
+                                    Lens.this.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            clicked.setVisibility(View.VISIBLE);
+                                            clicked.setImageBitmap(squareBitmap);
+                                            clicked.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                                            clicked_long.setVisibility(View.GONE);
+                                            recyclerView.setVisibility(View.GONE);
+                                            nofood.setVisibility(View.VISIBLE);
+                                            pg.setVisibility(View.GONE);
+                                            retake.setVisibility(View.VISIBLE);
+                                            addit.setVisibility(View.GONE);
+                                            stopTextUpdate();
+                                            feature.setVisibility(View.GONE);
+                                        }
+                                    });
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onFailure(@NonNull Throwable t) {
-                            t.printStackTrace();
-                        }
-                    }, executor);
-
-                    // Process the captured image using the ImageLabeler
-//                    int rotationDegree = 0;
-//                    InputImage image = InputImage.fromBitmap(rotatedBitmap, rotationDegree);
-//                    ImageLabeler labeler = ImageLabeling.getClient(ImageLabelerOptions.DEFAULT_OPTIONS);
-//                    labeler.process(image)
-//                            .addOnSuccessListener(new OnSuccessListener<List<ImageLabel>>() {
-//                                @Override
-//                                public void onSuccess(List<ImageLabel> labels) {
-//                                    StringBuilder labelInfo = new StringBuilder();
-//                                    boolean flg = true;
-//                                    for (ImageLabel label : labels) {
-//                                        String text = label.getText();
-//                                        float confidence = label.getConfidence();
-//                                        if (text.equals("Food") && confidence >= 0.7) {
-//                                            textView20.setText("\n\tApple\t\n\tCalories - 95\t\n");
-//                                            feature.setVisibility(View.GONE);
-//                                            flg = false;
-//                                            snap.setVisibility(View.GONE);
-//                                            addit.setVisibility(View.VISIBLE);
-//                                            retake.setVisibility(View.VISIBLE);
-//                                            break;
-//                                        }
-//                                        // Append the label and its confidence to the StringBuilder
-//                                        labelInfo.append(text).append(": ").append(confidence).append("\n");
-//                                    }
-//
-//                                    // Display the label information (you can show it in a TextView or any other UI element)
-//                                    // Example of displaying the labels in a TextView:
-//                                    if (flg) {
-//                                        snap.setVisibility(View.GONE);
-//                                        retake.setVisibility(View.VISIBLE);
-//                                        textView20.setText(labelInfo.toString());
-//                                    }
-//                                }
-//                            })
-//                            .addOnFailureListener(new OnFailureListener() {
-//                                @Override
-//                                public void onFailure(@NonNull Exception e) {
-//                                    e.printStackTrace();
-//                                }
-//                            });
+                            @Override
+                            public void onFailure(@NonNull Throwable t) {
+                                t.printStackTrace();
+                            }
+                        }, executor);
+                    }
 
                     isProcessingPicture = false;
                 }
@@ -580,4 +654,70 @@ public class Lens extends AppCompatActivity {
         handler.removeCallbacksAndMessages(null); // Remove all callbacks and messages
     }
 
+    private static String encryptString(String input,String XOR_KEY) {
+        StringBuilder encrypted = new StringBuilder();
+        for (int i = 0; i < input.length(); i++) {
+            encrypted.append((char) (input.charAt(i) ^ XOR_KEY.charAt(i % XOR_KEY.length())));
+        }
+        return encrypted.toString();
+    }
+
+    public static String calculateUpdatedNutrition(String originalNutritionInfo, String weight) {
+        double factor = Double.parseDouble(weight) / 100.0;
+
+        StringBuilder updatedNutritionInfo = new StringBuilder();
+
+        String[] lines = originalNutritionInfo.split("\n");
+
+        for (String line : lines) {
+            String[] parts = line.split(":");
+            if (parts.length == 2) {
+                String nutrient = parts[0].trim();
+                if(nutrient.trim().equals("Glycemic Index")){
+                    int originalValue = Integer.parseInt(parts[1].replaceAll("g", "").trim());
+
+                    updatedNutritionInfo.append(nutrient)
+                            .append(": ")
+                            .append(Integer.toString(originalValue))
+                            .append(" g\n");
+                }
+                else {
+                    double originalValue = Double.parseDouble(parts[1].replaceAll("g", "").trim());
+                    double updatedValue = originalValue * factor;
+
+                    updatedNutritionInfo.append(nutrient)
+                            .append(": ")
+                            .append(String.format("%.1f", updatedValue))
+                            .append(" g\n");
+                }
+            }
+        }
+
+        return updatedNutritionInfo.toString().trim();
+    }
+
+    public static double extractDensityValue(String densityString) {
+        // Assume the density string is in the format "0.5 g/cm^3"
+        String[] parts = densityString.split(" "); // Split by space
+        try {
+            return Double.parseDouble(parts[0]); // Parse the first part as a double
+        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            // Handle the case where parsing fails or the array index is out of bounds
+            e.printStackTrace(); // Log the exception
+            return 0.0; // Return a default value
+        }
+    }
+
+    // Method to extract volume value from a given string
+    public static double extractVolumeValue(String volumeString) {
+        // Assume the volume string is in the format "200 cm^3"
+        String[] parts = volumeString.split(" "); // Split by space
+        try {
+            return Double.parseDouble(parts[0]); // Parse the first part as a double
+        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            // Handle the case where parsing fails or the array index is out of bounds
+            e.printStackTrace(); // Log the exception
+            return 0.0; // Return a default value
+        }
+    }
 }

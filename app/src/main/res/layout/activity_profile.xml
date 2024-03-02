@@ -164,7 +164,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="end"
                             android:background="@color/white"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:textColor="#ababab"
                             android:text="1670"
                             android:textSize="20sp" />

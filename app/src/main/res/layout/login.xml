@@ -6,12 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <View
+    <ImageView
         android:id="@+id/View4"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_size_login_cover"
-        android:background="@drawable/loginbg"
         app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/loginbg"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,17 +22,11 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/View4"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/pacificoregular"
-            android:text="Welcome to "
-            android:textColor="@color/black"
-            android:textSize="30dp" />
+        app:layout_constraintTop_toBottomOf="@+id/View4">
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,49 +34,54 @@
             android:fontFamily="@font/pacificoregular"
             android:text="Calorie Guard!"
             android:textColor="@color/red"
-            android:textSize="30dp"
+            android:textSize="35sp"
             app:layout_constraintStart_toEndOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/View4" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pacificoregular"
+            android:text="Count, Conquer, Thrive"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
     </LinearLayout>
 
     <EditText
         android:id="@+id/editTextTextEmailAddress"
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="30dp"
         android:layout_height="@dimen/height_size_login_emailpass"
+        android:layout_marginHorizontal="30dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/login_creds_bg"
         android:elevation="2dp"
         android:fontFamily="@font/robotoregular"
-        android:hint="E m a i l"
+        android:hint="Email"
         android:inputType="textEmailAddress"
         android:paddingStart="15dp"
         android:textColor="@color/semigrey"
         android:textColorHint="@color/grey"
-        android:textSize="17dp"
-        android:textStyle="bold"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <EditText
         android:id="@+id/editTextTextPassword"
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="30dp"
         android:layout_height="@dimen/height_size_login_emailpass"
+        android:layout_marginHorizontal="30dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/login_creds_bg"
         android:elevation="2dp"
         android:fontFamily="@font/robotoregular"
-        android:hint="P a s s w o r d"
+        android:hint="Password"
         android:inputType="textPassword"
         android:paddingStart="15dp"
         android:textColor="@color/semigrey"
         android:textColorHint="@color/grey"
-        android:textSize="16dp"
-        android:textStyle="bold"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
@@ -94,40 +95,40 @@
         android:fontFamily="@font/robotoregular"
         android:text="Sign up"
         android:textColor="@color/red"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView6" />
 
-    <Button
+    <TextView
         android:id="@+id/buttonlogin"
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="30dp"
         android:layout_height="@dimen/height_size_login_emailpass"
-        android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
         android:background="@drawable/btn_bg"
         android:fontFamily="@font/robotoregular"
         android:text="Log in"
         android:textColor="@color/white"
-        android:textSize="20dp"
-        android:textStyle="bold"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/googleSignInButton" />
 
     <TextView
         android:id="@+id/forgotPass"
-        android:layout_width="140dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="35dp"
         android:fontFamily="@font/robotoregular"
-        android:text="Forgot Password?"
+        android:text="forgot password?"
         android:textAlignment="center"
         android:textColor="@color/grey"
-        android:textSize="13dp"
+        android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonlogin" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
 
     <ProgressBar
         android:id="@+id/progressBarana"
@@ -143,20 +144,6 @@
         app:layout_constraintVertical_bias="0.597" />
 
     <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/WhatsYourPlanMarginTop"
-        android:fontFamily="@font/robotoregular"
-        android:text="Log in"
-        android:textColor="@color/semigrey"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-    <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -164,7 +151,7 @@
         android:fontFamily="@font/robotoregular"
         android:text="Don't have an account?"
         android:textColor="@color/grey"
-        android:textSize="13dp"
+        android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.429"
@@ -174,11 +161,13 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="or signin with"
-        android:textSize="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="or"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/googleSignInButton" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/forgotPass"
+        tools:layout_editor_absoluteX="160dp"
+        tools:layout_editor_absoluteY="727dp" />
 
     <Button
         android:id="@+id/googleSignInButton"
@@ -187,6 +176,6 @@
         android:background="@drawable/google"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forgotPass" />
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

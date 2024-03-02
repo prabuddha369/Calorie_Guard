@@ -7,11 +7,12 @@
     <dimen name="RadioBtn_MarginTop">20dp</dimen>
     <dimen name="YourListHeight">250dp</dimen>
     <dimen name="YourListListViewHeight">180dp</dimen>
-    <dimen name="textSize">18dp</dimen>
+    <dimen name="textSize">18sp</dimen>
     <dimen name="padding">18dp</dimen>
     <dimen name="footer_height">65dp</dimen>
     <dimen name="caloriemeter_height">90dp</dimen>
     <dimen name="margin_custom_alert">30dp</dimen>
     <dimen name="textsize_bucketlist">15sp</dimen>
+    <dimen name="User_data_mt">90dp</dimen>
 
 </resources>

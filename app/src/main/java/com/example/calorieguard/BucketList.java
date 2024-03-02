@@ -288,8 +288,12 @@ public class BucketList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (result.getCurrentTextColor() == Color.RED) {
-                    showAddMoreConfirmationDialog();
+                    showAddMoreConfirmationDialog(Email);
                 } else {
+                    Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                    intent.putExtra("Email", Email);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     finish();
                 }
             }
@@ -385,33 +389,6 @@ public class BucketList extends AppCompatActivity {
             }
         });
 
-        scheduleWork(Email);
-
-    }
-
-    private void scheduleWork(String email) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-
-        // Set the time to 00:00:00.000
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-
-        // If the current time is already past 00:00, schedule it for the next day
-        if (System.currentTimeMillis() > calendar.getTimeInMillis()) {
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-        }
-
-        Data inputData = new Data.Builder().putString("email", email).build();
-
-        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(MidnightWorker.class)
-                .setInitialDelay(calendar.getTimeInMillis() - System.currentTimeMillis(), TimeUnit.MILLISECONDS)
-                .setInputData(inputData)
-                .build();
-
-        WorkManager.getInstance(this).enqueue(workRequest);
     }
 
     public String GetDaily(String s) {
@@ -425,18 +402,6 @@ public class BucketList extends AppCompatActivity {
             }
         }
         return d.trim();
-    }
-
-    public String RemovedataType(String s) {
-        String f = "";
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == ':') {
-                break;
-            } else {
-                f += s.charAt(i);
-            }
-        }
-        return f.trim();
     }
 
     public String Tocal(String s) {
@@ -571,7 +536,7 @@ public class BucketList extends AppCompatActivity {
         }
     }
 
-    private void showAddMoreConfirmationDialog() {
+    private void showAddMoreConfirmationDialog(String Email) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -598,6 +563,10 @@ public class BucketList extends AppCompatActivity {
         option2Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                intent.putExtra("Email", Email);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 finish();
             }
         });

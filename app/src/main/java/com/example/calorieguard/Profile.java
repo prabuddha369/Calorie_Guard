@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -36,10 +37,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Profile extends AppCompatActivity {
@@ -100,6 +105,9 @@ public class Profile extends AppCompatActivity {
         String name = userData.get("name");
         String weight = userData.get("weight");
         String Height = userData.get("height");
+        double height_val =roundToTwoDecimalPlace(Double.parseDouble(Height));
+        Height = String.valueOf(height_val);
+
         String Age = userData.get("age");
         String City = userData.get("city");
         String aimedWeight = userData.get("aimedWeight");
@@ -147,7 +155,7 @@ public class Profile extends AppCompatActivity {
         int position = adapter.getPosition(Sex);
         sex.setSelection(position);
 
-        String[] units = {"cm", "inch"};
+        String[] units = {"cm", "feet"};
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
@@ -160,14 +168,14 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 // Check if the selected item is "Select your Activity Level"
-                if(flg)
+                if(flg && !unit.getSelectedItem().toString().isEmpty())
                 {
-                    if(unit.getSelectedItem().toString().equals("inch"))
+                    if(unit.getSelectedItem().toString().equals("feet"))
                     {
-                        height.setText(cmToinchs(height.getText().toString()));
+                        height.setText(cmToFeetInches(Double.parseDouble(height.getText().toString())));
                     }
                     else{
-                        height.setText(inchesToCm(height.getText().toString()));
+                        height.setText(feetInchesToCm(height.getText().toString()));
                     }
                 }
                 flg=true;
@@ -226,9 +234,9 @@ public class Profile extends AppCompatActivity {
                 String name = Name.getText().toString().trim();
                 String weight = w1.getText().toString().trim();
                 String Height = height.getText().toString().trim();
-                if(unit.getSelectedItem().toString().equals("inch"))
+              if(unit.getSelectedItem().toString().equals("feet"))
                 {
-                    Height=inchesToCm(Height);
+                    Height=feetInchesToCm(Height);
                 }
                 String Age = age.getText().toString().trim();
                 String City = city.getText().toString().trim();
@@ -317,29 +325,45 @@ public class Profile extends AppCompatActivity {
 
     public void SaveData(String plan, String mod_email, String Age, String Height, String Weight, String Sex, String name, String City, String DpUrl, String Aimedwight, String Activitylevel_float,String ActivityLevel) {
 
-        DBHelper dbHelper = new DBHelper(this);
-        dbHelper.close();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance("https://calorie-guard-412008-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users");
+// Create a Map to hold user data
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("name", name);
+        userData.put("age", Age);
+        userData.put("height", Height);
+        userData.put("weight", Weight);
+        userData.put("sex", Sex);
+        userData.put("city", City);
+        userData.put("dpUrl", DpUrl);
+        userData.put("aimedWeight", Aimedwight);
+        userData.put("activityLevel", ActivityLevel);
 
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("age", Age);
-        hashMap.put("height", Height);
-        hashMap.put("weight", Weight);
-        hashMap.put("name",name);
-        hashMap.put("sex", Sex);
-        hashMap.put("aimedWeight", Aimedwight);
-        hashMap.put("activity", ActivityLevel);
-        hashMap.put("city",City);
-        hashMap.put("DpUrl",DpUrl);
+// Construct the document reference using a sanitized email as the document ID
+        String sanitizedEmail = mod_email.replaceAll("[.#\\[\\]$@]", "_");
 
-        mDatabase.child(mod_email.replaceAll("[.#\\[\\]$@]", "_")).child("Data").setValue(hashMap)
+// Add a collection if needed (assuming a collection named "Users" doesn't exist yet)
+        db.collection("Users")
+                .document(sanitizedEmail)
+                .set(userData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("TAG", "User data saved successfully!");
+                        // Handle success (e.g., show a success message)
+                    }
+                })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(Profile.this, "Turn On your Internet : "+e.toString(), Toast.LENGTH_SHORT).show();
+                        Log.w("TAG", "Error saving user data: ", e);
+                        // Handle failure (e.g., show an error message)
                     }
                 });
+
+
+        DBHelper dbHelper = new DBHelper(this);
+        dbHelper.close();
 
         String curr_cal = "";
         if (Sex.equals("Male")) {
@@ -375,27 +399,34 @@ public class Profile extends AppCompatActivity {
         }
     }
 
-    public static String inchesToCm(String inchesStr) {
-        // Convert the input string to a double
-        float inches = Float.parseFloat(inchesStr);
+    public static String feetInchesToCm(String feetInchesStr) {
+        // Split the input string into feet and inches
+        String[] parts = feetInchesStr.split("\\.");
 
-        // 1 inch is equal to 2.54 centimeters
-        float centimeters = (float) (inches * 2.54);
+        // Extract feet and inches
+        int feet = Integer.parseInt(parts[0]);
+        int inches = parts.length > 1 ? Integer.parseInt(parts[1]) : 0;
+
+        // Convert feet and inches to centimeters
+        double totalInches = feet * 12 + inches;
+        double centimeters = roundToTwoDecimalPlace(totalInches * 2.54);
 
         // Convert the result to a string
         return String.valueOf(centimeters);
     }
 
-    public static String cmToinchs(String cmstr) {
-        // Convert the input string to a double
-        float cm = Float.parseFloat(cmstr);
+    public static String cmToFeetInches(double centimeters) {
+        // Convert centimeters to inches
+        double totalInches = centimeters / 2.54;
 
-        // 1 inch is equal to 2.54 centimeters
-        float inches = (float) (cm / 2.54);
+        // Calculate feet and remaining inches
+        int feet = (int) (totalInches / 12);
+        int remainingInches = (int) (totalInches % 12);
 
         // Convert the result to a string
-        return String.valueOf(inches);
+        return feet + "." + remainingInches;
     }
+
 
     private void showActivitySpinner() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -459,4 +490,11 @@ public class Profile extends AppCompatActivity {
 
         alertDialog.show();
     }
+
+    public static double roundToTwoDecimalPlace(double value) {
+        // Use DecimalFormat to round off to one decimal place
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        return Double.parseDouble(decimalFormat.format(value));
+    }
+
 }

@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -26,25 +27,32 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class UserData extends AppCompatActivity {
     public Button next;
-    public TextView activity_spinner;
+    public TextView activity_spinner,link;
+    private LinearLayout l1;
     public EditText age, height, weight, city, nm,aimed_wt;
     public Spinner genderSpinner,unit;
     private ProgressBar progressBar2;
+    private CheckBox terms;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
     private SharedPreferences sharedPreferences;
 
@@ -65,6 +73,9 @@ public class UserData extends AppCompatActivity {
         progressBar2 = findViewById(R.id.progressBar3);
         nm = (EditText) findViewById(R.id.editTextText);
         aimed_wt=findViewById(R.id.aimed_wt);
+        terms=findViewById(R.id.terms);
+        link=findViewById(R.id.link);
+        l1=findViewById(R.id.l1);
 
         progressBar2.setVisibility(View.GONE);
 
@@ -101,7 +112,7 @@ public class UserData extends AppCompatActivity {
            }
        });
 
-        String[] units = {"cm", "inch"};
+        String[] units = {"cm","feet"};
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
@@ -116,13 +127,23 @@ public class UserData extends AppCompatActivity {
         String dpUrl = getIntent().getExtras().getString("DpUrl");
         nm.setText(name);
 
+        link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String websiteUrl = "https://sites.google.com/view/calorie-guard21/home";
+
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(websiteUrl));
+                startActivity(intent);
+            }
+        });
+
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String Height = height.getText().toString();
-                if(unit.getSelectedItem().toString().equals("inch"))
+                if(unit.getSelectedItem().toString().equals("feet"))
                 {
-                    Height=inchesToCm(Height);
+                    Height=feetInchesToCm(Height);
                 }
                 String Weight = weight.getText().toString().trim();
                 String Age = age.getText().toString().trim();
@@ -132,7 +153,7 @@ public class UserData extends AppCompatActivity {
                 String[] activityParts = activitylevel.split(":");
                 String aimedweight = aimed_wt.getText().toString().trim();
                 String name_edt = nm.getText().toString().trim();
-                if (!Height.isEmpty() && !Weight.isEmpty() && !Age.isEmpty() && !City.isEmpty() && !sex.equals("Select Gender") && !activitylevel.isEmpty() && !aimedweight.isEmpty() && !name_edt.isEmpty()) {
+                if (terms.isChecked() && !Height.isEmpty() && !Weight.isEmpty() && !Age.isEmpty() && !City.isEmpty() && !sex.equals("Select Gender") && !activitylevel.isEmpty() && !aimedweight.isEmpty() && !name_edt.isEmpty()) {
                     progressBar2.setVisibility(View.VISIBLE);
                     String activity_float="";
                     if (activityParts.length == 2) {
@@ -181,6 +202,10 @@ public class UserData extends AppCompatActivity {
                     finish();
                 } else {
                     vibrateDevice(UserData.this);
+                    if(!terms.isChecked())
+                    {
+                        shakeView(l1);
+                    }
                     if(name_edt.isEmpty())
                     {
                         shakeView(nm);
@@ -220,26 +245,62 @@ public class UserData extends AppCompatActivity {
 
     public void SaveData(String mod_email, String Age, String Height, String Weight, String Sex, String name, String City, String DpUrl, String Aimedwight, String Activitylevel_float,String ActivityLevel) {
 
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance("https://calorie-guard-412008-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        HashMap<String, Object> hashMap=new HashMap<>();
-        hashMap.put("name",name);
-        hashMap.put("age",Age);
-        hashMap.put("height",Height);
-        hashMap.put("weight",Weight);
-        hashMap.put("sex",Sex);
-        hashMap.put("city",City);
-        hashMap.put("dpUrl",DpUrl);
-        hashMap.put("aimedWeight",Aimedwight);
-        hashMap.put("activityLevel",ActivityLevel);
+// Create a Map to hold user data
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("name", name);
+        userData.put("age", Age);
+        userData.put("height", Height);
+        userData.put("weight", Weight);
+        userData.put("sex", Sex);
+        userData.put("city", City);
+        userData.put("dpUrl", DpUrl);
+        userData.put("aimedWeight", Aimedwight);
+        userData.put("activityLevel", ActivityLevel);
 
-        mDatabase.child(mod_email.replaceAll("[.#\\[\\]$@]", "_")).child("Data").setValue(hashMap)
+// Construct the document reference using a sanitized email as the document ID
+        String sanitizedEmail = mod_email.replaceAll("[.#\\[\\]$@]", "_");
+
+// Add a collection if needed (assuming a collection named "Users" doesn't exist yet)
+        db.collection("Users")
+                .document(sanitizedEmail)
+                .set(userData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("TAG", "User data saved successfully!");
+                        // Handle success (e.g., show a success message)
+                    }
+                })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(UserData.this, "Turn On your Internet : "+e.toString(), Toast.LENGTH_SHORT).show();
+                        Log.w("TAG", "Error saving user data: ", e);
+                        // Handle failure (e.g., show an error message)
                     }
                 });
+
+//        DatabaseReference mDatabase = FirebaseDatabase.getInstance("https://calorie-guard-412008-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users");
+//
+//        HashMap<String, Object> hashMap=new HashMap<>();
+//        hashMap.put("name",name);
+//        hashMap.put("age",Age);
+//        hashMap.put("height",Height);
+//        hashMap.put("weight",Weight);
+//        hashMap.put("sex",Sex);
+//        hashMap.put("city",City);
+//        hashMap.put("dpUrl",DpUrl);
+//        hashMap.put("aimedWeight",Aimedwight);
+//        hashMap.put("activityLevel",ActivityLevel);
+//
+//        mDatabase.child(mod_email.replaceAll("[.#\\[\\]$@]", "_")).child("Data").setValue(hashMap)
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(UserData.this, "Turn On your Internet : "+e.toString(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
 
         DBHelper dbHelper = new DBHelper(this);
@@ -315,16 +376,22 @@ public class UserData extends AppCompatActivity {
         }
     }
 
-    public static String inchesToCm(String inchesStr) {
-            // Convert the input string to a double
-            float inches = Float.parseFloat(inchesStr);
+    public static String feetInchesToCm(String feetInchesStr) {
+        // Split the input string into feet and inches
+        String[] parts = feetInchesStr.split("\\.");
 
-            // 1 inch is equal to 2.54 centimeters
-            float centimeters = (float) (inches * 2.54);
+        // Extract feet and inches
+        int feet = Integer.parseInt(parts[0]);
+        int inches = parts.length > 1 ? Integer.parseInt(parts[1]) : 0;
 
-            // Convert the result to a string
-            return String.valueOf(centimeters);
+        // Convert feet and inches to centimeters
+        double totalInches = feet * 12 + inches;
+        double centimeters = totalInches * 2.54;
+
+        // Convert the result to a string
+        return String.valueOf(centimeters);
     }
+
 
     private void showActivitySpinner() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

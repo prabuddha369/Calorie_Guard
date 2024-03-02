@@ -10,11 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Shader;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -22,6 +18,8 @@ import android.os.Looper;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.Settings;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -42,10 +40,14 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.work.Constraints;
 import androidx.work.Data;
+import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
@@ -54,6 +56,12 @@ import androidx.work.WorkQuery;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -74,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         footer.Stop();
         super.onUserLeaveHint();
     }
+
     private boolean doubleBackToExitPressedOnce = false;
 
     @Override
@@ -88,8 +97,12 @@ public class MainActivity extends AppCompatActivity {
                 type = "";
             }
 
-            // Restore the original width and position of the searchView
         } else if (fd_wd.hasFocus()) {
+            if(!fd_wd.getText().toString().contains("g")) {
+               String fd_wt_with_g = fd_wd.getText().toString()+" g";
+               fd_wd.setText(fd_wt_with_g);
+            }
+            // Clear the focus to hide the soft keyboard
             fd_wd.clearFocus();
         } else {
             if (doubleBackToExitPressedOnce) {
@@ -114,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
     private int currentTextIndex = 0;
     private String[] textArray = {"Search Veggies", "Search Fruits", "Search Meals", "Search Foods", "Search Snacks"};
     public int wt_fd;
+    private String email;
     private ArrayList<String> foodNamesList = new ArrayList<>();
     private Footer footer;
     String str, dpUrl, type = "", Calories = "";
@@ -186,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
         View rootView = findViewById(android.R.id.content);
 
         // Get the email passed from the previous activity and set up the Firebase database reference
-        String email = getIntent().getExtras().getString("Email");
+        email = getIntent().getExtras().getString("Email");
 
         // Load the food names from the CSV file and get User Data and set the current activity footer background
         loadFoodNamesFromCSV();
@@ -195,13 +209,12 @@ public class MainActivity extends AppCompatActivity {
         footer = new Footer(this, rootView, email);
         footer.setDashboardBackground(R.drawable.circlebg);
 
-        AutoCompleteTextView autoCompleteTextView = findViewById(R.id.fd_wt);
+
         NumberRangeAdapter adapterN = new NumberRangeAdapter(this);
-
-        autoCompleteTextView.setAdapter(adapterN);
-
+        fd_wd.setAdapter(adapterN);
         // Set the drop-down anchor to display the suggestions above the view
-        autoCompleteTextView.setDropDownAnchor(R.id.fd_wt);
+        fd_wd.setDropDownAnchor(R.id.fd_wt);
+
         fd_wd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -347,30 +360,34 @@ public class MainActivity extends AppCompatActivity {
                     shakeView(fd_wd);
                     return;
                 }
+                else if (!foodCaloriesExist(searchView.getText().toString())) {
+                    vibrateDevice(MainActivity.this);
+                    shakeView(searchView);
+                    return;
+                }
 
                 str = searchView.getText().toString();
                 String wt = fd_wd.getText().toString();
-                if (!str.isEmpty() && !wt.isEmpty() && foodCaloriesExist(str)) {
-                    if (type.isEmpty()) {
-                        showCustomAlertDialog(str, email, wt);
+
+                if (type.isEmpty()) {
+                    showCustomAlertDialog(str, email, wt);
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), BucketList.class);
+
+                    String CalculatedCal = CalculateCal(getCaloriesFromCSV(str));
+
+                    if (dbHelper.doesItemExist(email, type + " " + str + " " + wt)) {
+                        dbHelper.insertItemData(email, type + " " + str + " " + wt + "(" + Integer.toString(i++) + ")", CalculatedCal);
+                        intent.putExtra("Email", email);
+                        startActivity(intent);
                     } else {
-                        Intent intent = new Intent(getApplicationContext(), BucketList.class);
-
-                        String CalculatedCal = CalculateCal(getCaloriesFromCSV(str));
-
-                        if (dbHelper.doesItemExist(email, type + " " + str + " " + wt)) {
-                            dbHelper.insertItemData(email, type + " " + str + " " + wt + "(" + Integer.toString(i++) + ")", CalculatedCal);
-                            intent.putExtra("Email", email);
-                            startActivity(intent);
-                        } else {
-                            dbHelper.insertItemData(email, type + " " + str + " " + wt, CalculatedCal);
-                            intent.putExtra("Email", email);
-                            startActivity(intent);
-                        }
-                        searchView.setText("");
-                        fd_wd.setText("");
-                        type = "";
+                        dbHelper.insertItemData(email, type + " " + str + " " + wt, CalculatedCal);
+                        intent.putExtra("Email", email);
+                        startActivity(intent);
                     }
+                    searchView.setText("");
+                    fd_wd.setText("");
+                    type = "";
                 }
             }
         });
@@ -416,7 +433,7 @@ public class MainActivity extends AppCompatActivity {
         privacy_policy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String websiteUrl = "https://sites.google.com/view/calorie-guard/home";
+                String websiteUrl = "https://sites.google.com/view/calorieguardlife/home";
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(websiteUrl));
                 startActivity(intent);
@@ -436,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
         TandC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String websiteUrl = "https://sites.google.com/view/calorieguard1/home";
+                String websiteUrl = "https://sites.google.com/view/calorie-guard21/home";
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(websiteUrl));
                 startActivity(intent);
@@ -537,68 +554,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Breakfast Job Scheduler
-        scheduleWork(1, 9, 13);
-
-        // Lunch Job Scheduler
-        scheduleWork(2, 14, 11);
-
-        // Dinner Job Scheduler
-        scheduleWork(3, 22, 3);
-
-        // Snack Job Scheduler
-        scheduleWork(4, 18, 19);
+        scheduleMidNightWork();
 
     }
 
-    private void scheduleWork(int jobType, int hourOfDay, int minute) {
-        // Calculate the delay until the specified time
-        long delay = calculateDelayUntilTime(hourOfDay, minute);
+    private void scheduleMidNightWork() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
 
-        // Create input data for the worker
-        Data inputData = new Data.Builder().putInt("JobType", jobType).build();
+        // Set the time to 00:00:00.000
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
 
-        // Define a unique tag for the work
-        String workTag = Integer.toString(jobType * 100);
-
-        // Check if the work with the same tag is already scheduled
-        WorkQuery workQuery = WorkQuery.Builder
-                .fromTags(Collections.singletonList(workTag))
-                .addStates(Arrays.asList(WorkInfo.State.ENQUEUED, WorkInfo.State.RUNNING))
-                .build();
-
-        WorkManager.getInstance(getApplicationContext()).getWorkInfosLiveData(workQuery)
-                .observeForever(workInfos -> {
-                    // If no matching work is found, enqueue a new one
-                    if (workInfos == null || workInfos.isEmpty()) {
-                        // Create OneTimeWorkRequest with delay and tag
-                        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(MyWorker.class)
-                                .setInitialDelay(delay, TimeUnit.MILLISECONDS)
-                                .setInputData(inputData)
-                                .addTag(workTag)
-                                .build();
-
-                        // Enqueue the work request
-                        WorkManager.getInstance(getApplicationContext()).enqueue(workRequest);
-                    }
-                });
-    }
-
-    private long calculateDelayUntilTime(int hourOfDay, int minute) {
-        Calendar currentTime = Calendar.getInstance();
-        Calendar scheduledTime = Calendar.getInstance();
-        scheduledTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        scheduledTime.set(Calendar.MINUTE, minute);
-        scheduledTime.set(Calendar.SECOND, 0);
-        scheduledTime.set(Calendar.MILLISECOND, 0);
-
-        // If the scheduled time is in the past, add a day
-        if (currentTime.after(scheduledTime)) {
-            scheduledTime.add(Calendar.DAY_OF_YEAR, 1);
+        // If the current time is already past 00:00, schedule it for the next day
+        if (System.currentTimeMillis() > calendar.getTimeInMillis()) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
         }
 
-        // Calculate the delay until the specified time
-        return scheduledTime.getTimeInMillis() - currentTime.getTimeInMillis();
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(MidnightWorker.class)
+                .setInitialDelay(calendar.getTimeInMillis() - System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+                .setConstraints(new Constraints.Builder()
+                        .setRequiresBatteryNotLow(false)
+                        .setRequiresCharging(false)
+                        .setRequiresDeviceIdle(false)
+                        .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+                        .build())
+                .build();
+
+        WorkManager.getInstance(this).enqueue(workRequest);
     }
 
     private void createNotificationChannel() {
@@ -706,6 +691,10 @@ public class MainActivity extends AppCompatActivity {
             String name = userData.get("name");
             String weight = userData.get("weight");
             String height = userData.get("height");
+            double height_val = Double.parseDouble(height);
+            int roundedHeight = (int) Math.round(height_val);
+            height = String.valueOf(roundedHeight);
+
             String age = userData.get("age");
             String sex = userData.get("sex");
             String curcal = userData.get("curcal");
@@ -975,6 +964,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView titleTextView = dialogView.findViewById(R.id.dialogTitle);
         titleTextView.setText("Enhance your app experience – grant notification permissions for efficiency.");
+        titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
 
         TextView option1Button = dialogView.findViewById(R.id.option1Button);
         option1Button.setText("Continue");

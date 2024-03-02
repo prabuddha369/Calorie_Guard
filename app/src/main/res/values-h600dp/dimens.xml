@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="height_size_login_cover">100dp</dimen>
+    <dimen name="height_size_login_cover">150dp</dimen>
     <dimen name="height_size_login_emailpass">40dp</dimen>
     <dimen name="signup_margin_top">20dp</dimen>
     <dimen name="WhatsYourPlanMarginTop">10dp</dimen>

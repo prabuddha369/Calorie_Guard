@@ -26,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import android.widget.RadioGroup;
@@ -43,14 +44,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Signup extends AppCompatActivity {
 
     public EditText name,email,pass,cnfpass;
-    public TextView t,signupbtn,showpass,showcnfpass;
+    public TextView t,signupbtn;
+    public ImageView showpass,showcnfpass;
     private ProgressBar progressBar2;
     boolean isShown=false;
     boolean isShowncnf=false;
@@ -85,12 +91,12 @@ public class Signup extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(isShown) {
-                    showpass.setBackgroundResource(R.drawable.eye);
+                    showpass.setImageResource(R.drawable.eye);
                     pass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     isShown=!isShown;
                 }
                 else {
-                    showpass.setBackgroundResource(R.drawable.show);
+                    showpass.setImageResource(R.drawable.show);
                     pass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     isShown=!isShown;
                 }
@@ -101,12 +107,12 @@ public class Signup extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(isShowncnf) {
-                    showcnfpass.setBackgroundResource(R.drawable.eye);
+                    showcnfpass.setImageResource(R.drawable.eye);
                     cnfpass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     isShowncnf=!isShowncnf;
                 }
                 else {
-                    showcnfpass.setBackgroundResource(R.drawable.show);
+                    showcnfpass.setImageResource(R.drawable.show);
                     cnfpass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     isShowncnf=!isShowncnf;
                 }
@@ -162,53 +168,107 @@ public class Signup extends AppCompatActivity {
     }
 
     public void Fun_signup(String Email, String Pass, String Name) {
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance("https://calorie-guard-412008-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         String sanitizedEmail = Email.replaceAll("[.#\\[\\]$@]", "_");
-        final DatabaseReference userRef = mDatabase.child(sanitizedEmail).child("Data");
 
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // The node already exists, show an error message
-                    Toast.makeText(Signup.this, "Email already in use", Toast.LENGTH_SHORT).show();
-                } else {
-                    // The node doesn't exist, proceed with data insertion
-                    HashMap<String, Object> hashMap = new HashMap<>();
-                    hashMap.put("name", Name);
+        db.collection("Users").document(sanitizedEmail).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            // The document already exists, handle email in use
+                            Toast.makeText(Signup.this, "Email already in use", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // The document doesn't exist, proceed with data insertion
+                            Map<String, Object> userData = new HashMap<>();
+                            userData.put("name", Name);
 
-                    mDatabase.child(sanitizedEmail).child("Data").setValue(hashMap)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    DBHelper dbHelper = new DBHelper(Signup.this);
-                                    dbHelper.close();
+                            db.collection("Users").document(sanitizedEmail)
+                                    .set(userData, SetOptions.merge()) // Use SetOptions.merge() for potential future updates
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            // Handle success (DBHelper, SecurePreferencesManager, intent)
+                                            DBHelper dbHelper = new DBHelper(Signup.this);
+                                            dbHelper.close();
 
-                                    SecurePreferencesManager.saveCredentials(Signup.this, Email, Pass);
+                                            SecurePreferencesManager.saveCredentials(Signup.this, Email, Pass);
 
-                                    Intent intent = new Intent(getApplicationContext(), UserData.class);
-                                    intent.putExtra("Email", Email);
-                                    intent.putExtra("Name", Name);
-                                    intent.putExtra("DpUrl", "https://i.ibb.co/gvBsZ9q/Rectangle-2-1.png");
-                                    startActivity(intent);
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(Signup.this, "Turn On your Internet: " + e.toString(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle any errors during the database operation
-                Toast.makeText(Signup.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                                            Intent intent = new Intent(getApplicationContext(), UserData.class);
+                                            intent.putExtra("Email", Email);
+                                            intent.putExtra("Name", Name);
+                                            intent.putExtra("DpUrl", "https://i.ibb.co/gvBsZ9q/Rectangle-2-1.png");
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            // Handle failure
+                                            Toast.makeText(Signup.this, "Please Turn On your Internet: " + e.toString(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("Server Error",e.toString());
+                        // Handle database errors
+                        Toast.makeText(Signup.this, "Server error, please try again later!: " + e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
+//        DatabaseReference mDatabase = FirebaseDatabase.getInstance("https://calorie-guard-412008-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("Users");
+//
+//        String sanitizedEmail = Email.replaceAll("[.#\\[\\]$@]", "_");
+//        final DatabaseReference userRef = mDatabase.child(sanitizedEmail).child("Data");
+//
+//        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists()) {
+//                    // The node already exists, show an error message
+//                    Toast.makeText(Signup.this, "Email already in use", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    // The node doesn't exist, proceed with data insertion
+//                    HashMap<String, Object> hashMap = new HashMap<>();
+//                    hashMap.put("name", Name);
+//
+//                    mDatabase.child(sanitizedEmail).child("Data").setValue(hashMap)
+//                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                @Override
+//                                public void onSuccess(Void aVoid) {
+//                                    DBHelper dbHelper = new DBHelper(Signup.this);
+//                                    dbHelper.close();
+//
+//                                    SecurePreferencesManager.saveCredentials(Signup.this, Email, Pass);
+//
+//                                    Intent intent = new Intent(getApplicationContext(), UserData.class);
+//                                    intent.putExtra("Email", Email);
+//                                    intent.putExtra("Name", Name);
+//                                    intent.putExtra("DpUrl", "https://i.ibb.co/gvBsZ9q/Rectangle-2-1.png");
+//                                    startActivity(intent);
+//                                }
+//                            })
+//                            .addOnFailureListener(new OnFailureListener() {
+//                                @Override
+//                                public void onFailure(@NonNull Exception e) {
+//                                    Toast.makeText(Signup.this, "Turn On your Internet: " + e.toString(), Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
+//                }
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                // Handle any errors during the database operation
+//                Toast.makeText(Signup.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
     private void shakeView(View view) {
         Animation shake = AnimationUtils.loadAnimation(view.getContext(), R.anim.shake_animation);
         view.startAnimation(shake);

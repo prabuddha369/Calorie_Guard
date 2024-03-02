@@ -8,4 +8,5 @@
     <dimen name="YourListHeight">230dp</dimen>
     <dimen name="YourListListViewHeight">130dp</dimen>
     <dimen name="caloriemeter_height">80dp</dimen>
+    <dimen name="User_data_mt">70dp</dimen>
 </resources>

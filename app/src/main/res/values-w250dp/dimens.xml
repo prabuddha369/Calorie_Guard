@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="textSize">14dp</dimen>
+    <dimen name="textSize">14sp</dimen>
     <dimen name="padding">8dp</dimen>
     <dimen name="footer_height">40dp</dimen>
     <dimen name="margin_custom_alert">10dp</dimen>

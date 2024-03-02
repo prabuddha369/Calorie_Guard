@@ -24,6 +24,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private final List<DataModel> dataList;
     private final double[] initialCalories; // Array to store initial calories
+    private final double[] initialWeights; // Array to store initial calories
     private final String[] initialMacros; // Array to store initial calories
 
     public RecyclerViewAdapter(List<DataModel> dataList) {
@@ -32,6 +33,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Arrays.fill(initialCalories, -1); // Set initial values to -1
         this.initialMacros = new String[dataList.size()];
         Arrays.fill(initialMacros,":");
+        this.initialWeights = new double[dataList.size()]; // Initialize the array size
+        Arrays.fill(initialCalories, -1); // Set initial values to -1
     }
 
     @NonNull
@@ -55,6 +58,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // Set the initial calorie and macros value in the array if not already set
         if (initialCalories[position] == -1) {
             initialCalories[position] = Double.parseDouble(data.getCalorieScan());
+            initialWeights[position] = Double.parseDouble(data.getWeightScan().replaceAll("g$", "").trim());
             initialMacros[position] = data.getMacrosScan();
         }
 
@@ -120,10 +124,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     // Calculate new calorie based on the changed weight
                     double weight = Double.parseDouble(weightString);
-                    double initialWeight = 100.0; // Initial weight for calorie calculation
 
                     // Calculate new calorie using unitary method
-                    int newCalorie = (int) ((weight / initialWeight) * initialCalories[adapterPosition]);
+                    int newCalorie = (int) Math.round((weight / 100.0) * initialCalories[adapterPosition]);
                     String updatedMacros=calculateUpdatedNutrition(initialMacros[adapterPosition],weightString);
 
                     // Update weight
@@ -161,13 +164,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             String[] parts = line.split(":");
             if (parts.length == 2) {
                 String nutrient = parts[0].trim();
-                double originalValue = Double.parseDouble(parts[1].replaceAll("g", "").trim());
-                double updatedValue = originalValue * factor;
+                if(nutrient.trim().equals("Glycemic Index")){
+                    int originalValue = Integer.parseInt(parts[1].replaceAll("g", "").trim());
 
-                updatedNutritionInfo.append(nutrient)
-                        .append(": ")
-                        .append(String.format("%.3f", updatedValue))
-                        .append(" g\n");
+                    updatedNutritionInfo.append(nutrient)
+                            .append(": ")
+                            .append(Integer.toString(originalValue))
+                            .append(" g\n");
+                }
+                else {
+                    double originalValue = Double.parseDouble(parts[1].replaceAll("g", "").trim());
+                    double updatedValue = originalValue * factor;
+
+                    updatedNutritionInfo.append(nutrient)
+                            .append(": ")
+                            .append(String.format("%.1f", updatedValue))
+                            .append(" g\n");
+                }
             }
         }
 
