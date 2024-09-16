@@ -5,16 +5,18 @@
 Maintenance Calorie Calculator and Food Calorie intake tracker App with AI Lens and AI FItness Assistant.
 
 ## 🛠 Skills
-Android Studio, Java, Firebase, API, Android Testing, Android Designing ...
+Android Studio, Java, Firebase, API, Android Testing, Android Designing.
 ## App Screenshots
 
-![App Screenshot](https://i.ibb.co/0QX4nMs/Picsart-24-01-26-12-08-44-486.jpg)
+![App Screenshot](https://i.ibb.co/HxLjfbp/Mockup-scan.png)
 
 ## Demo
+Calorie Guard Website
+[Link to website](https://www.calorieguard.life/)
 
-Calorie Guard.apk
 
-link comming soon for playstore...
+Calorie Guard available on Playstore
+[Download Now](https://play.google.com/store/apps/details?id=com.calorieguard.calorieguard)
 
  **Note :** *works best with android 10 above*
 ## Contributing
