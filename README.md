@@ -12,7 +12,7 @@ Android Studio, Java, Firebase, API, Android Testing, Android Designing.
 
 ## Demo
 Calorie Guard Website
-[Link to website](https://www.calorieguard.life/)
+[Link to website](https://www.calorieguard.in/)
 
 
 Calorie Guard available on Playstore
